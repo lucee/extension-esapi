@@ -62,6 +62,9 @@
     <copy todir="${temp}">
       <fileset dir="${src}">
         <include name="**/*.java"/>
+        <include name="**/*.properties"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.json"/>
       </fileset>
     </copy>
 
@@ -96,14 +99,25 @@ start-bundles: false
   <target name="dist" depends="compile"
         description="generate the distribution" >
     
+
+    <!-- add none java files to the jar -->
+     <copy todir="${build}">
+      <fileset dir="${temp}">
+        <include name="**/*.properties"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.json"/>
+      </fileset>
+    </copy>
+
+
  
     <!-- Put everything in ${build} into .jar file -->
     <jar 
-    	jarfile="${dist}/extension/jars/${filename}-${bundleversion}${build.number}${appendix}.jar" basedir="${build}"  manifest="${src}/META-INF/MANIFEST.MF">
+    	jarfile="${dist}/extension/jars/${name}-extension-${bundleversion}${build.number}${appendix}.jar" basedir="${build}"  manifest="${src}/META-INF/MANIFEST.MF">
       <manifest>
         <attribute name="Bundle-Version" value="${bundleversion}${build.number}${appendix}"/>
         <attribute name="Built-Date" value="${NOW}"/>
-        <attribute name="Bundle-SymbolicName" value="${bundlename}"/>
+        <attribute name="Bundle-SymbolicName" value="${name}.extension"/>
 
       </manifest>
     </jar>
@@ -129,13 +143,13 @@ start-bundles: false
 
     <!-- copy the flds necessary -->
     <loadfile property="f1" srcFile="${srcFld}/function.fld" />
-    <replace haystack="${f1}" needle="{bundle-name}" repl="${bundlename}" property="f2"/>
+    <replace haystack="${f1}" needle="{bundle-name}" repl="${name}.extension" property="f2"/>
     <replace haystack="${f2}" needle="{bundle-version}" repl="${bundleversion}${build.number}${appendix}" property="f3"/>
-    <echo message="${f3}" file="${dist}/extension/flds/image-function.fld"/>
+    <echo message="${f3}" file="${dist}/extension/flds/${name}-function.fld"/>
 
 
     <!-- Zip everything  -->
-     <zip destfile="${dist}/${filename}-${bundleversion}${build.number}${appendix}.lex">
+     <zip destfile="${dist}/${name}-extension-${bundleversion}${build.number}${appendix}.lex">
         <zipfileset dir="${dist}/extension"/>
     </zip>
 		

@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
 Export-Package: org.lucee.extension.esapi,org.lucee.extension.esapi.functions
 Bundle-ManifestVersion: 2
-Require-Bundle: org.lucee.esapi;bundle-version=2.1.0.1,
- xom.nu;bundle-version=1.2.5.osgi
+Require-Bundle: org.lucee.esapi;bundle-version=2.1.0.1

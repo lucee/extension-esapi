@@ -36,13 +36,17 @@ public class PropertyDeployer {
 	
 	public static void deployIfNecessary() {
 		if(deployed) return;
+		Resource dir; // TODO better way to get a dir
+		try {
+			dir=CFMLEngineFactory.getInstance().getSystemUtil().getTempDirectory();
+		}
+		catch (IOException e) {
+			dir=CFMLEngineFactory.getInstance().getSystemUtil().getSystemDirectory();
+		}
+		dir = dir.getRealResource("properties");
 		
-		Resource dir=CFMLEngineFactory.getInstance().getSystemUtil().getSystemDirectory();
-        dir = dir.getRealResource("properties");
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%% "+dir);
 		create("/org/lucee/extension/esapi/resource/","ESAPI.properties",dir);
 		System.setProperty("org.owasp.esapi.resources", dir.toString());
-		
 		deployed=true;
 	}
 
