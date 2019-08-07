@@ -151,17 +151,23 @@ public class ESAPIEncode extends FunctionSupport {
 
     }
 
-    public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed) {
-	if (eng.getStringUtil().isEmpty(input)) return input;
+    public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
+		if (eng.getStringUtil().isEmpty(input)) return input;
 
-	PrintStream out = System.out;
-	try {
-	    System.setOut(new PrintStream(DevNullOutputStream.DEV_NULL_OUTPUT_STREAM));
-	    return ESAPI.encoder().canonicalize(input, restrictMultiple, restrictMixed);
-	}
-	finally {
-	    System.setOut(out);
-	}
+		PrintStream out = System.out;
+		try {
+		    System.setOut(new PrintStream(DevNullOutputStream.DEV_NULL_OUTPUT_STREAM));
+		    Encoder encoder = ESAPI.encoder();
+		    String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
+		    return item;
+		}
+		catch(Exception e) {
+	        if(throwOnError == false) return "";
+	        throw cast.toPageException(e);
+		}
+		finally {
+		    System.setOut(out);
+		}
     }
 
     @Override
