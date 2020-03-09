@@ -18,59 +18,51 @@
  **/
 package org.lucee.extension.esapi.functions;
 
-import java.io.PrintStream;
-
-import lucee.runtime.PageContext;
-import lucee.runtime.exp.PageException;
-
-import org.lucee.extension.esapi.util.DevNullOutputStream;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Encoder;
 import org.owasp.esapi.errors.EncodingException;
 
+import lucee.runtime.PageContext;
+import lucee.runtime.exp.PageException;
+
 public class ESAPIDecode extends FunctionSupport {
-	
+
 	private static final long serialVersionUID = 7054200748398531363L;
-	
-	public static final short DEC_BASE64=1;
-	public static final short DEC_URL=2;
-	public static final short DEC_HTML=3;
-	
-	public static String decode(String item, short decFrom) throws PageException  {
-		
-		PrintStream out = System.out;
+
+	public static final short DEC_BASE64 = 1;
+	public static final short DEC_URL = 2;
+	public static final short DEC_HTML = 3;
+
+	public static String decode(String item, short decFrom) throws PageException {
 		try {
-			 System.setOut(new PrintStream(DevNullOutputStream.DEV_NULL_OUTPUT_STREAM));
-			 Encoder encoder = ESAPI.encoder();
-			 switch(decFrom){
-			 case DEC_URL:return encoder.decodeFromURL(item);
-			 //case DEC_BASE64:return encoder.decodeFromBase64(item);
-			 case DEC_HTML:return encoder.decodeForHTML(item);
-			 }
-			 throw exp.createApplicationException("invalid target decoding defintion");
+			Encoder encoder = ESAPI.encoder();
+			switch (decFrom) {
+			case DEC_URL:
+				return encoder.decodeFromURL(item);
+			// case DEC_BASE64:return encoder.decodeFromBase64(item);
+			case DEC_HTML:
+				return encoder.decodeForHTML(item);
+			}
+			throw exp.createApplicationException("invalid target decoding defintion");
 		}
-		catch(EncodingException ee){
+		catch (EncodingException ee) {
 			throw cast.toPageException(ee);
 		}
-		finally {
-			 System.setOut(out);
-		}
 	}
-	
-	public static String call(PageContext pc , String strDecodeFrom, String value) throws PageException{
+
+	public static String call(PageContext pc, String strDecodeFrom, String value) throws PageException {
 		short decFrom;
-		strDecodeFrom=eng.getStringUtil().emptyIfNull(strDecodeFrom).trim().toLowerCase();
-		if("url".equals(strDecodeFrom)) decFrom=DEC_URL;
-		else if("html".equals(strDecodeFrom)) decFrom=DEC_HTML;
-		else 
-			throw exp.createFunctionException(pc, "ESAPIDecode", 1, "decodeFrom", "value ["+strDecodeFrom+"] is invalid, valid values are " +"[url,html]","");
+		strDecodeFrom = eng.getStringUtil().emptyIfNull(strDecodeFrom).trim().toLowerCase();
+		if ("url".equals(strDecodeFrom)) decFrom = DEC_URL;
+		else if ("html".equals(strDecodeFrom)) decFrom = DEC_HTML;
+		else throw exp.createFunctionException(pc, "ESAPIDecode", 1, "decodeFrom", "value [" + strDecodeFrom + "] is invalid, valid values are " + "[url,html]", "");
 		return decode(value, decFrom);
 	}
 
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
-		if(args.length==2) return call(pc,cast.toString(args[0]),cast.toString(args[1]));
+		if (args.length == 2) return call(pc, cast.toString(args[0]), cast.toString(args[1]));
 		throw exp.createFunctionException(pc, "ESAPIDecode", 2, 2, args.length);
 	}
-	
+
 }
