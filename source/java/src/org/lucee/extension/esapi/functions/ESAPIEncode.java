@@ -18,9 +18,6 @@
  **/
 package org.lucee.extension.esapi.functions;
 
-import java.io.PrintStream;
-
-import org.lucee.extension.esapi.util.DevNullOutputStream;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Encoder;
 import org.owasp.esapi.errors.EncodingException;
@@ -147,15 +144,7 @@ public class ESAPIEncode extends FunctionSupport {
 
 	public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed) {
 		if (eng.getStringUtil().isEmpty(input)) return input;
-
-		PrintStream out = System.out;
-		try {
-			System.setOut(new PrintStream(DevNullOutputStream.DEV_NULL_OUTPUT_STREAM));
-			return ESAPI.encoder().canonicalize(input, restrictMultiple, restrictMixed);
-		}
-		finally {
-			System.setOut(out);
-		}
+		return ESAPI.encoder().canonicalize(input, restrictMultiple, restrictMixed);
 	}
 
 	@Override
