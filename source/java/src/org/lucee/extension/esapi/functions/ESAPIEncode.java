@@ -91,58 +91,58 @@ public class ESAPIEncode extends FunctionSupport {
 		return encode(value, toEncodeType(pc, strEncodeFor), canonicalize);
 	}
 
-  public static short toEncodeType(String strEncodeFor, short defaultValue) {
-	strEncodeFor = eng.getStringUtil().emptyIfNull(strEncodeFor).trim().toLowerCase();
+	public static short toEncodeType(String strEncodeFor, short defaultValue) {
+		strEncodeFor = eng.getStringUtil().emptyIfNull(strEncodeFor).trim().toLowerCase();
 
-	if ("css".equals(strEncodeFor)) return ENC_CSS;
-	else if ("dn".equals(strEncodeFor)) return ENC_DN;
-	else if ("html".equals(strEncodeFor)) return ENC_HTML;
-	else if ("html_attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("htmlattr".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("html-attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("html attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("html_attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("htmlattributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("html-attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("html attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
-	else if ("js".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
-	else if ("javascript".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
-	else if ("java_script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
-	else if ("java script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
-	else if ("java-script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
-	else if ("ldap".equals(strEncodeFor)) return ENC_LDAP;
-	// else if("".equals(strEncodeFor)) encFor=ENC_OS;
-	// else if("".equals(strEncodeFor)) encFor=ENC_SQl;
-	else if ("url".equals(strEncodeFor)) return ENC_URL;
-	else if ("vbs".equals(strEncodeFor)) return ENC_VB_SCRIPT;
-	else if ("vbscript".equals(strEncodeFor)) return ENC_VB_SCRIPT;
-	else if ("vb-script".equals(strEncodeFor)) return ENC_VB_SCRIPT;
-	else if ("vb_script".equals(strEncodeFor)) return ENC_VB_SCRIPT;
-	else if ("vb script".equals(strEncodeFor)) return ENC_VB_SCRIPT;
-	else if ("xml".equals(strEncodeFor)) return ENC_XML;
-	else if ("xmlattr".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xml attr".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xml-attr".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xml_attr".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xmlattributes".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xml attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xml-attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xml_attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
-	else if ("xpath".equals(strEncodeFor)) return ENC_XPATH;
-	else return defaultValue;
-    }
+		if ("css".equals(strEncodeFor)) return ENC_CSS;
+		else if ("dn".equals(strEncodeFor)) return ENC_DN;
+		else if ("html".equals(strEncodeFor)) return ENC_HTML;
+		else if ("html_attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("htmlattr".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("html-attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("html attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("html_attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("htmlattributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("html-attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("html attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("js".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
+		else if ("javascript".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
+		else if ("java_script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
+		else if ("java script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
+		else if ("java-script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
+		else if ("ldap".equals(strEncodeFor)) return ENC_LDAP;
+		// else if("".equals(strEncodeFor)) encFor=ENC_OS;
+		// else if("".equals(strEncodeFor)) encFor=ENC_SQl;
+		else if ("url".equals(strEncodeFor)) return ENC_URL;
+		else if ("vbs".equals(strEncodeFor)) return ENC_VB_SCRIPT;
+		else if ("vbscript".equals(strEncodeFor)) return ENC_VB_SCRIPT;
+		else if ("vb-script".equals(strEncodeFor)) return ENC_VB_SCRIPT;
+		else if ("vb_script".equals(strEncodeFor)) return ENC_VB_SCRIPT;
+		else if ("vb script".equals(strEncodeFor)) return ENC_VB_SCRIPT;
+		else if ("xml".equals(strEncodeFor)) return ENC_XML;
+		else if ("xmlattr".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xml attr".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xml-attr".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xml_attr".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xmlattributes".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xml attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xml-attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xml_attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xpath".equals(strEncodeFor)) return ENC_XPATH;
+		else return defaultValue;
+	}
 
-  public static short toEncodeType(PageContext pc, String strEncodeFor) throws PageException {
-	short df = (short) -1;
-	short encFor = toEncodeType(strEncodeFor, df);
-	if (encFor != df) return encFor;
+	public static short toEncodeType(PageContext pc, String strEncodeFor) throws PageException {
+		short df = (short) -1;
+		short encFor = toEncodeType(strEncodeFor, df);
+		if (encFor != df) return encFor;
 
-	String msg = "value [" + strEncodeFor + "] is invalid, valid values are " + "[css,dn,html,html_attr,javascript,ldap,vbscript,xml,xml_attr,xpath]";
-	throw exp.createApplicationException(msg);
+		String msg = "value [" + strEncodeFor + "] is invalid, valid values are " + "[css,dn,html,html_attr,javascript,ldap,vbscript,xml,xml_attr,xpath]";
+		throw exp.createApplicationException(msg);
 
-    }
+	}
 
-    public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
+        public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
 		if (eng.getStringUtil().isEmpty(input)) return input;
 	
 		try {
@@ -155,13 +155,13 @@ public class ESAPIEncode extends FunctionSupport {
 	        throw cast.toPageException(e);
 		}
 		
-    }
+        }
 
-    @Override
-    public Object invoke(PageContext pc, Object[] args) throws PageException {
-	if (args.length == 2) return call(pc, cast.toString(args[0]), cast.toString(args[1]));
-	if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]));
-	throw exp.createFunctionException(pc, "ESAPIEncode", 2, 3, args.length);
-    }
+	@Override
+	public Object invoke(PageContext pc, Object[] args) throws PageException {
+		if (args.length == 2) return call(pc, cast.toString(args[0]), cast.toString(args[1]));
+		if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]));
+		throw exp.createFunctionException(pc, "ESAPIEncode", 2, 3, args.length);
+	}
 
 }
