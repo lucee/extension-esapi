@@ -18,9 +18,6 @@
  **/
 package org.lucee.extension.esapi.functions;
 
-import java.io.PrintStream;
-
-import org.lucee.extension.esapi.util.DevNullOutputStream;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Encoder;
 import org.owasp.esapi.errors.EncodingException;
@@ -30,77 +27,71 @@ import lucee.runtime.exp.PageException;
 
 public class ESAPIEncode extends FunctionSupport {
 
-    private static final long serialVersionUID = -6432679747287827759L;
+	private static final long serialVersionUID = -6432679747287827759L;
 
-    // this constants are also defined in Lucee core, do not change
-    public static final short ENC_BASE64 = 1;
-    public static final short ENC_CSS = 2;
-    public static final short ENC_DN = 3;
-    public static final short ENC_HTML = 4;
-    public static final short ENC_HTML_ATTR = 5;
-    public static final short ENC_JAVA_SCRIPT = 6;
-    public static final short ENC_LDAP = 7;
-    public static final short ENC_OS = 8;
-    public static final short ENC_SQl = 9;
-    public static final short ENC_URL = 10;
-    public static final short ENC_VB_SCRIPT = 11;
-    public static final short ENC_XML = 12;
-    public static final short ENC_XML_ATTR = 13;
-    public static final short ENC_XPATH = 14;
+	// this constants are also defined in Lucee core, do not change
+	public static final short ENC_BASE64 = 1;
+	public static final short ENC_CSS = 2;
+	public static final short ENC_DN = 3;
+	public static final short ENC_HTML = 4;
+	public static final short ENC_HTML_ATTR = 5;
+	public static final short ENC_JAVA_SCRIPT = 6;
+	public static final short ENC_LDAP = 7;
+	public static final short ENC_OS = 8;
+	public static final short ENC_SQl = 9;
+	public static final short ENC_URL = 10;
+	public static final short ENC_VB_SCRIPT = 11;
+	public static final short ENC_XML = 12;
+	public static final short ENC_XML_ATTR = 13;
+	public static final short ENC_XPATH = 14;
 
-    public static String encode(String item, short encFor, boolean canonicalize) throws PageException {
-	if (eng.getStringUtil().isEmpty(item)) return item;
+	public static String encode(String item, short encFor, boolean canonicalize) throws PageException {
+		if (eng.getStringUtil().isEmpty(item)) return item;
 
-	PrintStream out = System.out;
-	try {
+		try {
+			Encoder encoder = ESAPI.encoder();
+			if (canonicalize) item = encoder.canonicalize(item, false);
 
-	    System.setOut(new PrintStream(DevNullOutputStream.DEV_NULL_OUTPUT_STREAM));
-	    Encoder encoder = ESAPI.encoder();
-	    if (canonicalize) item = encoder.canonicalize(item, false);
-
-	    switch (encFor) {
-	    case ENC_CSS:
-		return encoder.encodeForCSS(item);
-	    case ENC_DN:
-		return encoder.encodeForDN(item);
-	    case ENC_HTML:
-		return encoder.encodeForHTML(item);
-	    case ENC_HTML_ATTR:
-		return encoder.encodeForHTMLAttribute(item);
-	    case ENC_JAVA_SCRIPT:
-		return encoder.encodeForJavaScript(item);
-	    case ENC_LDAP:
-		return encoder.encodeForLDAP(item);
-	    case ENC_URL:
-		return encoder.encodeForURL(item);
-	    case ENC_VB_SCRIPT:
-		return encoder.encodeForVBScript(item);
-	    case ENC_XML:
-		return encoder.encodeForXML(item);
-	    case ENC_XML_ATTR:
-		return encoder.encodeForXMLAttribute(item);
-	    case ENC_XPATH:
-		return encoder.encodeForXPath(item);
-	    }
-	    throw exp.createApplicationException("invalid target encoding defintion");
+			switch (encFor) {
+			case ENC_CSS:
+				return encoder.encodeForCSS(item);
+			case ENC_DN:
+				return encoder.encodeForDN(item);
+			case ENC_HTML:
+				return encoder.encodeForHTML(item);
+			case ENC_HTML_ATTR:
+				return encoder.encodeForHTMLAttribute(item);
+			case ENC_JAVA_SCRIPT:
+				return encoder.encodeForJavaScript(item);
+			case ENC_LDAP:
+				return encoder.encodeForLDAP(item);
+			case ENC_URL:
+				return encoder.encodeForURL(item);
+			case ENC_VB_SCRIPT:
+				return encoder.encodeForVBScript(item);
+			case ENC_XML:
+				return encoder.encodeForXML(item);
+			case ENC_XML_ATTR:
+				return encoder.encodeForXMLAttribute(item);
+			case ENC_XPATH:
+				return encoder.encodeForXPath(item);
+			}
+			throw exp.createApplicationException("invalid target encoding defintion");
+		}
+		catch (EncodingException ee) {
+			throw cast.toPageException(ee);
+		}
 	}
-	catch (EncodingException ee) {
-	    throw cast.toPageException(ee);
+
+	public static String call(PageContext pc, String strEncodeFor, String value) throws PageException {
+		return call(pc, strEncodeFor, value, false);
 	}
-	finally {
-	    System.setOut(out);
+
+	public static String call(PageContext pc, String strEncodeFor, String value, boolean canonicalize) throws PageException {
+		return encode(value, toEncodeType(pc, strEncodeFor), canonicalize);
 	}
-    }
 
-    public static String call(PageContext pc, String strEncodeFor, String value) throws PageException {
-	return call(pc, strEncodeFor, value, false);
-    }
-
-    public static String call(PageContext pc, String strEncodeFor, String value, boolean canonicalize) throws PageException {
-	return encode(value, toEncodeType(pc, strEncodeFor), canonicalize);
-    }
-
-    public static short toEncodeType(String strEncodeFor, short defaultValue) {
+  public static short toEncodeType(String strEncodeFor, short defaultValue) {
 	strEncodeFor = eng.getStringUtil().emptyIfNull(strEncodeFor).trim().toLowerCase();
 
 	if ("css".equals(strEncodeFor)) return ENC_CSS;
@@ -141,7 +132,7 @@ public class ESAPIEncode extends FunctionSupport {
 	else return defaultValue;
     }
 
-    public static short toEncodeType(PageContext pc, String strEncodeFor) throws PageException {
+  public static short toEncodeType(PageContext pc, String strEncodeFor) throws PageException {
 	short df = (short) -1;
 	short encFor = toEncodeType(strEncodeFor, df);
 	if (encFor != df) return encFor;
@@ -153,11 +144,9 @@ public class ESAPIEncode extends FunctionSupport {
 
     public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
 		if (eng.getStringUtil().isEmpty(input)) return input;
-
-		PrintStream out = System.out;
+	
 		try {
-		    System.setOut(new PrintStream(DevNullOutputStream.DEV_NULL_OUTPUT_STREAM));
-		    Encoder encoder = ESAPI.encoder();
+		   Encoder encoder = ESAPI.encoder();
 		    String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
 		    return item;
 		}
@@ -165,9 +154,7 @@ public class ESAPIEncode extends FunctionSupport {
 	        if(throwOnError == false) return "";
 	        throw cast.toPageException(e);
 		}
-		finally {
-		    System.setOut(out);
-		}
+		
     }
 
     @Override
@@ -176,4 +163,5 @@ public class ESAPIEncode extends FunctionSupport {
 	if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]));
 	throw exp.createFunctionException(pc, "ESAPIEncode", 2, 3, args.length);
     }
+
 }

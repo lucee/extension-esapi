@@ -9,7 +9,6 @@ import lucee.runtime.util.Cast;
 import lucee.runtime.util.Excepton;
 
 public abstract class FunctionSupport extends BIF {
-
 	private static final long serialVersionUID = -7313619105409563661L;
 
 	static CFMLEngine eng;
@@ -18,9 +17,9 @@ public abstract class FunctionSupport extends BIF {
 
 	static {
 		eng = CFMLEngineFactory.getInstance();
-		cast=eng.getCastUtil();
-		exp=eng.getExceptionUtil();
-		
+		cast = eng.getCastUtil();
+		exp = eng.getExceptionUtil();
+
 		// deploy properties file if necessary
 		PropertyDeployer.deployIfNecessary();
 	}
