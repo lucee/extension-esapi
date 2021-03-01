@@ -20,12 +20,43 @@ package org.lucee.extension.esapi.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.ext.function.Function;
+import java.net.URLDecoder;
+
 
 public class Canonicalize implements Function {
 
 	private static final long serialVersionUID = -4248746351014698481L;
 
-	public static String call(PageContext pc,String input, boolean restrictMultiple, boolean restrictMixed) {
-		return ESAPIEncode.canonicalize(input, restrictMultiple,restrictMixed);
+	public static String call(PageContext pc,String input, boolean restrictMultiple, boolean restrictMixed) throws
+		Exception{
+	
+		return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, false);
+	}
+
+	public static String call(PageContext pc,String input, boolean restrictMultiple, boolean restrictMixed, boolean throwonError) throws Exception{
+		
+		String str = input;
+		String decodeUrl = " ";
+        String strFind = "%";
+        int count = 0, fromIndex = 0;
+        
+        while ((fromIndex = str.indexOf(strFind, fromIndex)) != -1 ){
+            count++;
+            fromIndex++;
+        }
+
+		decodeUrl = URLDecoder.decode(input, "UTF-8");
+
+		if(decodeUrl == input) return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
+			
+		else {
+			if(throwonError == false && (restrictMultiple == true || restrictMixed == true)) {
+				if(count > 0) return " ";
+				else return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
+			}
+			else {
+				return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
+			}
+		}
 	}
 }

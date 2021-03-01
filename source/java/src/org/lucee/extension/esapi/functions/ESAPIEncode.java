@@ -142,10 +142,20 @@ public class ESAPIEncode extends FunctionSupport {
 
 	}
 
-	public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed) {
+        public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
 		if (eng.getStringUtil().isEmpty(input)) return input;
-		return ESAPI.encoder().canonicalize(input, restrictMultiple, restrictMixed);
-	}
+	
+		try {
+		   Encoder encoder = ESAPI.encoder();
+		    String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
+		    return item;
+		}
+		catch(Exception e) {
+	        if(throwOnError == false) return "";
+	        throw cast.toPageException(e);
+		}
+		
+        }
 
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
@@ -153,4 +163,5 @@ public class ESAPIEncode extends FunctionSupport {
 		if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]));
 		throw exp.createFunctionException(pc, "ESAPIEncode", 2, 3, args.length);
 	}
+
 }
