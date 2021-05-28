@@ -20,8 +20,15 @@ package org.lucee.extension.esapi.functions;
 
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Encoder;
+import org.owasp.esapi.codecs.Codec;
+import org.owasp.esapi.codecs.DB2Codec;
+import org.owasp.esapi.codecs.MySQLCodec;
+import org.owasp.esapi.codecs.MySQLCodec.Mode;
+import org.owasp.esapi.codecs.OracleCodec;
 import org.owasp.esapi.errors.EncodingException;
 
+import lucee.loader.engine.CFMLEngineFactory;
+import lucee.loader.util.Util;
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
@@ -38,7 +45,7 @@ public class ESAPIEncode extends FunctionSupport {
 	public static final short ENC_JAVA_SCRIPT = 6;
 	public static final short ENC_LDAP = 7;
 	public static final short ENC_OS = 8;
-	public static final short ENC_SQl = 9;
+	public static final short ENC_SQL = 9;
 	public static final short ENC_URL = 10;
 	public static final short ENC_VB_SCRIPT = 11;
 	public static final short ENC_XML = 12;
@@ -46,6 +53,10 @@ public class ESAPIEncode extends FunctionSupport {
 	public static final short ENC_XPATH = 14;
 
 	public static String encode(String item, short encFor, boolean canonicalize) throws PageException {
+		return encode(item, encFor, canonicalize, null);
+	}
+
+	public static String encode(String item, short encFor, boolean canonicalize, Codec codec) throws PageException {
 		if (eng.getStringUtil().isEmpty(item)) return item;
 
 		try {
@@ -75,6 +86,8 @@ public class ESAPIEncode extends FunctionSupport {
 				return encoder.encodeForXMLAttribute(item);
 			case ENC_XPATH:
 				return encoder.encodeForXPath(item);
+			case ENC_SQL:
+				return encoder.encodeForSQL(codec, item);
 			}
 			throw exp.createApplicationException("invalid target encoding defintion");
 		}
@@ -83,12 +96,33 @@ public class ESAPIEncode extends FunctionSupport {
 		}
 	}
 
+	public static Codec toCodec(String sqlDialect) throws PageException, RuntimeException {
+		if (!Util.isEmpty(sqlDialect, true)) {
+			sqlDialect = sqlDialect.trim().toLowerCase();
+			if ("mysql_ansi".equals(sqlDialect)) return new MySQLCodec(Mode.ANSI);
+			if ("mysql".equals(sqlDialect)) return new MySQLCodec(Mode.STANDARD);
+			if ("oracle".equals(sqlDialect)) return new OracleCodec();
+			if ("db2".equals(sqlDialect)) return new DB2Codec();
+		}
+		else throw CFMLEngineFactory.getInstance().getExceptionUtil()
+				.createApplicationException("You need to define a SQL dialect, this dialects are supported [db2, mysql, mysql_ansi, oracle]");
+
+		throw CFMLEngineFactory.getInstance().getExceptionUtil()
+				.createApplicationException("SQL dialect [" + sqlDialect + "] is not supported, supported dialects are [db2, mysql, mysql_ansi, oracle]");
+
+	}
+
 	public static String call(PageContext pc, String strEncodeFor, String value) throws PageException {
-		return call(pc, strEncodeFor, value, false);
+		return call(pc, strEncodeFor, value, false, null);
 	}
 
 	public static String call(PageContext pc, String strEncodeFor, String value, boolean canonicalize) throws PageException {
-		return encode(value, toEncodeType(pc, strEncodeFor), canonicalize);
+		return call(pc, strEncodeFor, value, canonicalize, null);
+	}
+
+	public static String call(PageContext pc, String strEncodeFor, String value, boolean canonicalize, String dialect) throws PageException {
+		short type = toEncodeType(pc, strEncodeFor);
+		return encode(value, type, canonicalize, type == ENC_SQL ? toCodec(dialect) : null);
 	}
 
 	public static short toEncodeType(String strEncodeFor, short defaultValue) {
@@ -112,7 +146,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("java-script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
 		else if ("ldap".equals(strEncodeFor)) return ENC_LDAP;
 		// else if("".equals(strEncodeFor)) encFor=ENC_OS;
-		// else if("".equals(strEncodeFor)) encFor=ENC_SQl;
+		else if ("sql".equals(strEncodeFor)) return ENC_SQL;
 		else if ("url".equals(strEncodeFor)) return ENC_URL;
 		else if ("vbs".equals(strEncodeFor)) return ENC_VB_SCRIPT;
 		else if ("vbscript".equals(strEncodeFor)) return ENC_VB_SCRIPT;
@@ -137,7 +171,7 @@ public class ESAPIEncode extends FunctionSupport {
 		short encFor = toEncodeType(strEncodeFor, df);
 		if (encFor != df) return encFor;
 
-		String msg = "value [" + strEncodeFor + "] is invalid, valid values are " + "[css,dn,html,html_attr,javascript,ldap,vbscript,xml,xml_attr,xpath]";
+		String msg = "value [" + strEncodeFor + "] is invalid, valid values are " + "[css,dn,html,html_attr,javascript,ldap,sql,vbscript,xml,xml_attr,xpath]";
 		throw exp.createApplicationException(msg);
 
 	}
@@ -151,6 +185,7 @@ public class ESAPIEncode extends FunctionSupport {
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
 		if (args.length == 2) return call(pc, cast.toString(args[0]), cast.toString(args[1]));
 		if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]));
-		throw exp.createFunctionException(pc, "ESAPIEncode", 2, 3, args.length);
+		if (args.length == 4) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]), cast.toString(args[3]));
+		throw exp.createFunctionException(pc, "ESAPIEncode", 2, 4, args.length);
 	}
 }
