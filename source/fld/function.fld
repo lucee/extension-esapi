@@ -195,7 +195,7 @@
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.EncodeForSQL</class>
 		<member-name>encodeForSQL</member-name>
 		<keywords>ESAPI,SQL,query</keywords>
-		<description>Encodes the given string for safe output in a query to reduce the risk Cross Site Scripting attacks.</description>
+		<description>Encodes the given string for safe output in a query to reduce the risk of SQL Injection attacks. _This method is not recommended_ - the use of query parameters are strongly encouraged as a stronger alternative.</description>
 		<argument>
 			<name>string</name>
 			<type>string</type>
