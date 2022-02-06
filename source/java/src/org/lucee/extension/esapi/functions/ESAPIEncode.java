@@ -135,6 +135,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("htmlattr".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html-attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("htmlattribute".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html_attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("htmlattributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html-attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
@@ -158,6 +159,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("xml attr".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml-attr".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml_attr".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xmlattribute".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xmlattributes".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml-attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
