@@ -457,6 +457,15 @@
 			<required>Yes</required>
 			<description>true if checking for mixed encoding is desired, false otherwise</description>
 	    </argument>
+	    <argument>
+			<name>throwOnError</name>
+			<alias>error</alias>
+			<type>boolean</type>
+			<default>false</default>
+			<required>No</required>
+			<description> If the value of this argument is true, and if restrictMultiple or restrictMixed is true and the given input contains mixed or multiple encoded strings, an exception will be thrown.
+			If the value of this argument is false, an empty string will be returned instead of an exception. </description>
+	    </argument>
 		<return>
 			<type>string</type>
 		</return>
