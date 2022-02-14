@@ -502,4 +502,38 @@
 		</return>
 	</function>  -->
 
+	<!-- sanitizeHTML -->
+	<function>
+		<name>sanitizeHTML</name>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.SanitizeHTML</class>
+		<member-name>sanitizeHTML</member-name>
+		<keywords>ESAPI,HTML</keywords>
+		<description>Sanitizes unsafe HTML input and removes elements and attributes like JavaScript, onclick, etc.
+See also https://github.com/OWASP/java-html-sanitizer
+		</description>
+		<argument>
+			<name>string</name>
+			<type>string</type>
+			<required>true</required>
+			<description>string to sanitize</description>
+		</argument>
+		<argument>
+			<name>policy</name>
+			<type>any</type>
+			<required>false</required>
+			<description>Either a org.owasp.html.PolicyFactory or a String with built in Sanitizers. If ommited then 
+			all of the built-in policies are applied. The built in Sanitizers are:
+- FORMATTING
+- BLOCKS
+- STYLES
+- LINKS
+- TABLES
+- IMAGES
+</description>
+		</argument>
+		<return>
+			<type>string</type>
+		</return>
+	</function>
+
 </func-lib>
