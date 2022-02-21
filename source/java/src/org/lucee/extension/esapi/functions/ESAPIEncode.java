@@ -135,6 +135,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("htmlattr".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html-attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html attr".equals(strEncodeFor)) return ENC_HTML_ATTR;
+		else if ("htmlattribute".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html_attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("htmlattributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
 		else if ("html-attributes".equals(strEncodeFor)) return ENC_HTML_ATTR;
@@ -158,6 +159,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("xml attr".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml-attr".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml_attr".equals(strEncodeFor)) return ENC_XML_ATTR;
+		else if ("xmlattribute".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xmlattributes".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
 		else if ("xml-attributes".equals(strEncodeFor)) return ENC_XML_ATTR;
@@ -176,10 +178,20 @@ public class ESAPIEncode extends FunctionSupport {
 
 	}
 
-	public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed) {
+        public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
 		if (eng.getStringUtil().isEmpty(input)) return input;
-		return ESAPI.encoder().canonicalize(input, restrictMultiple, restrictMixed);
-	}
+	
+		try {
+		   Encoder encoder = ESAPI.encoder();
+		    String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
+		    return item;
+		}
+		catch(Exception e) {
+	        if(throwOnError == false) return "";
+	        throw cast.toPageException(e);
+		}
+		
+        }
 
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
@@ -188,4 +200,5 @@ public class ESAPIEncode extends FunctionSupport {
 		if (args.length == 4) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]), cast.toString(args[3]));
 		throw exp.createFunctionException(pc, "ESAPIEncode", 2, 4, args.length);
 	}
+
 }

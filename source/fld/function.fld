@@ -10,7 +10,7 @@
 		OWASP ESAPI functions
 	</description>
 
-	<!-- ESAPIDecode -->	
+	<!-- ESAPIDecode -->
 	<function>
 		<name>ESAPIDecode</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.ESAPIDecode</class>
@@ -22,21 +22,20 @@
 			<required>Yes</required>
 			<description>given value is encoded as:
 - url
-</description>
-	    </argument>
+			</description>
+		</argument>
 		<argument>
 			<name>string</name>
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-	    </argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
-		
-	<!-- ESAPIEncode -->	
+
+	<!-- ESAPIEncode -->
 	<function>
 		<name>ESAPIEncode</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.ESAPIEncode</class>
@@ -60,22 +59,22 @@
 - xml: for output inside XML
 - xml_attr: for output inside XML Attributes
 - xpath: for output in XPath
-</description>
-	    </argument>
+			</description>
+		</argument>
 		<argument>
 			<name>string</name>
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-	    </argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<argument>
 			<name>dialect</name>
 			<type>string</type>
@@ -86,7 +85,7 @@
 				* mysql
 				* oracle
 			</description>
-	    </argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
@@ -104,12 +103,12 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
+
 	<!-- encodeForHTML -->
 	<function>
 		<name>encodeForHTML</name>
@@ -122,20 +121,20 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
+
 	<!-- encodeForHTMLAttribute -->
 	<function>
 		<name>encodeForHTMLAttribute</name>
@@ -148,20 +147,20 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
-	</function>	
-	
+	</function>
+
 	<!-- encodeForCSS -->
 	<function>
 		<name>encodeForCSS</name>
@@ -174,20 +173,19 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-
 
 	<!-- encodeForJavaScript -->
 	<function>
@@ -201,8 +199,8 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>dialect</name>
 			<type>string</type>
 			<required>Yes</required>
@@ -212,20 +210,20 @@
 				* mysql
 				* oracle
 			</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
+
 	<!-- encodeForJavaScript -->
 	<function>
 		<name>encodeForJavaScript</name>
@@ -238,20 +236,20 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
+
 	<!-- encodeForXML -->
 	<function>
 		<name>encodeForXML</name>
@@ -264,15 +262,15 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
@@ -289,20 +287,21 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	<!-- encodeForURL -->	
+
+	<!-- encodeForURL -->
 	<function>
 		<name>encodeForURL</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.EncodeForURL</class>
@@ -314,22 +313,21 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
-	
-	<!-- encodeForLDAP -->	
+
+	<!-- encodeForLDAP -->
 	<function>
 		<name>encodeForLDAP</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.EncodeForLDAP</class>
@@ -341,21 +339,21 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-   	 	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
-	<!-- encodeForDN -->	
+
+	<!-- encodeForDN -->
 	<function>
 		<name>encodeForDN</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.EncodeForDN</class>
@@ -367,21 +365,21 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
-	<!-- encodeForXPath -->	
+
+	<!-- encodeForXPath -->
 	<function>
 		<name>encodeForXPath</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.EncodeForXPath</class>
@@ -393,22 +391,21 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>string to encode</description>
-    	</argument>
-    	<argument>
+		</argument>
+		<argument>
 			<name>canonicalize</name>
 			<type>boolean</type>
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
 			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
-    	</argument>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
-	
-	<!-- decodeFromURL -->	
+
+	<!-- decodeFromURL -->
 	<function>
 		<name>decodeFromURL</name>
 		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.DecodeFromURL</class>
@@ -420,13 +417,12 @@
 			<name>string</name>
 			<type>string</type>
 			<required>Yes</required>
-		<description>string to encode</description>
-    </argument>
+			<description>string to encode</description>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-	
 
 	<!-- Canonicalize -->
 	<function>
@@ -442,26 +438,34 @@
 			<type>string</type>
 			<required>Yes</required>
 			<description>the input string to encode</description>
-	    </argument>
+		</argument>
 		<argument>
 			<name>restrictMultiple</name>
 			<alias>multiple</alias>
 			<type>boolean</type>
 			<required>Yes</required>
 			<description>true if checking for multiple encoding is desired, false otherwise.</description>
-	    </argument>
+		</argument>
 		<argument>
 			<name>restrictMixed</name>
 			<alias>mixed</alias>
 			<type>boolean</type>
 			<required>Yes</required>
 			<description>true if checking for mixed encoding is desired, false otherwise</description>
-	    </argument>
+		</argument>
+		<argument>
+			<name>throwOnError</name>
+			<alias>error</alias>
+			<type>boolean</type>
+			<default>false</default>
+			<required>No</required>
+			<description> If the value of this argument is true, and if restrictMultiple or restrictMixed is true and the given input contains mixed or multiple encoded strings, an exception will be thrown.
+			If the value of this argument is false, an empty string will be returned instead of an exception. </description>
+		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
-
 
 
 	<!-- GetSafeHTML
@@ -497,5 +501,5 @@
 			<type>string</type>
 		</return>
 	</function>  -->
-	
+
 </func-lib>
