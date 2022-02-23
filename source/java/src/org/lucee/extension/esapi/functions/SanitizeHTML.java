@@ -14,60 +14,51 @@
  **/
 package org.lucee.extension.esapi.functions;
 
-import lucee.runtime.PageContext;
-import lucee.runtime.exp.PageException;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 
+import lucee.runtime.PageContext;
+import lucee.runtime.exp.PageException;
 
 public final class SanitizeHTML extends FunctionSupport {
 
-    // FORMATTING, BLOCKS, STYLES, LINKS, TABLES, IMAGES
-    public static final PolicyFactory POLICY_ALL_BUILTIN = Sanitizers.FORMATTING
-        .and(Sanitizers.BLOCKS)
-        .and(Sanitizers.STYLES)
-        .and(Sanitizers.LINKS)
-        .and(Sanitizers.TABLES)
-        .and(Sanitizers.IMAGES);
-
+	// FORMATTING, BLOCKS, STYLES, LINKS, TABLES, IMAGES
+	public static final PolicyFactory POLICY_ALL_BUILTIN = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS).and(Sanitizers.STYLES).and(Sanitizers.LINKS).and(Sanitizers.TABLES)
+			.and(Sanitizers.IMAGES);
 
 	public static String sanitize(PageContext pc, String unsafeHtml, PolicyFactory policy) throws PageException {
-
-        return policy.sanitize(unsafeHtml);
+		return policy.sanitize(unsafeHtml);
 	}
-
 
 	public static String sanitize(PageContext pc, String unsafeHtml, String policies) throws PageException {
+		policies = policies.replace(" ", "").toUpperCase();
 
-        policies = policies.replace(" ", "").toUpperCase();
+		PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
+		if (policies.contains("FORMATTING")) policy = policy.and(Sanitizers.FORMATTING);
+		if (policies.contains("BLOCKS")) policy = policy.and(Sanitizers.BLOCKS);
+		if (policies.contains("STYLES")) policy = policy.and(Sanitizers.STYLES);
+		if (policies.contains("LINKS")) policy = policy.and(Sanitizers.LINKS);
+		if (policies.contains("TABLES")) policy = policy.and(Sanitizers.TABLES);
+		if (policies.contains("IMAGES")) policy = policy.and(Sanitizers.IMAGES);
 
-        PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
-        if (policies.contains("FORMATTING")) policy = policy.and(Sanitizers.FORMATTING);
-        if (policies.contains("BLOCKS"))     policy = policy.and(Sanitizers.BLOCKS);
-        if (policies.contains("STYLES"))     policy = policy.and(Sanitizers.STYLES);
-        if (policies.contains("LINKS"))      policy = policy.and(Sanitizers.LINKS);
-        if (policies.contains("TABLES"))     policy = policy.and(Sanitizers.TABLES);
-        if (policies.contains("IMAGES"))     policy = policy.and(Sanitizers.IMAGES);
-
-        return sanitize(pc, unsafeHtml, policy);
+		return sanitize(pc, unsafeHtml, policy);
 	}
 
-
-    @Override
+	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
 
-        if (args.length == 1) {
-            return sanitize(pc, cast.toString(args[0]), POLICY_ALL_BUILTIN);
-        }
+		if (args.length == 1) {
+			return sanitize(pc, cast.toString(args[0]), POLICY_ALL_BUILTIN);
+		}
 
-        if (args.length == 2) {
-            if (args[1] instanceof PolicyFactory) {
-                return sanitize(pc, cast.toString(args[0]), (PolicyFactory)args[1]);
-            }
+		if (args.length == 2) {
+			if (args[1] instanceof PolicyFactory) {
+				return sanitize(pc, cast.toString(args[0]), (PolicyFactory) args[1]);
+			}
 
-            return sanitize(pc, cast.toString(args[0]), cast.toString(args[1]));
-        }
+			return sanitize(pc, cast.toString(args[0]), cast.toString(args[1]));
+		}
 
 		throw exp.createFunctionException(pc, "SanitizeHTML", 1, 1, args.length);
 	}
