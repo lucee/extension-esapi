@@ -69,7 +69,7 @@ public class PropertyDeployer {
 			dir = CFMLEngineFactory.getInstance().getSystemUtil().getSystemDirectory();
 		}
 
-		dir = dir.getRealResource("properties");
+		dir = dir.getRealResource("esapi224");
 		String file = dir.getReal("ESAPI.properties");
 		create("/org/lucee/extension/esapi/resource/", "ESAPI.properties", dir);
 		create("/org/lucee/extension/esapi/resource/", "validation.properties", dir);
