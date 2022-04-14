@@ -23,9 +23,11 @@ import lucee.runtime.exp.PageException;
 
 public final class SanitizeHTML extends FunctionSupport {
 
+	public static final PolicyFactory TAG_STYLE = new HtmlPolicyBuilder().allowElements("style").allowTextIn​("style").toFactory();
+
 	// FORMATTING, BLOCKS, STYLES, LINKS, TABLES, IMAGES
-	public static final PolicyFactory POLICY_ALL_BUILTIN = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS).and(Sanitizers.STYLES).and(Sanitizers.LINKS).and(Sanitizers.TABLES)
-			.and(Sanitizers.IMAGES);
+	public static final PolicyFactory POLICY_ALL_BUILTIN = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS).and(Sanitizers.STYLES).and(TAG_STYLE)
+			.and(Sanitizers.LINKS).and(Sanitizers.TABLES).and(Sanitizers.IMAGES);
 
 	public static String sanitize(PageContext pc, String unsafeHtml, PolicyFactory policy) throws PageException {
 		return policy.sanitize(unsafeHtml);
@@ -37,7 +39,7 @@ public final class SanitizeHTML extends FunctionSupport {
 		PolicyFactory policy = new HtmlPolicyBuilder().toFactory();
 		if (policies.contains("FORMATTING")) policy = policy.and(Sanitizers.FORMATTING);
 		if (policies.contains("BLOCKS")) policy = policy.and(Sanitizers.BLOCKS);
-		if (policies.contains("STYLES")) policy = policy.and(Sanitizers.STYLES);
+		if (policies.contains("STYLES")) policy = policy.and(Sanitizers.STYLES).and(TAG_STYLE);
 		if (policies.contains("LINKS")) policy = policy.and(Sanitizers.LINKS);
 		if (policies.contains("TABLES")) policy = policy.and(Sanitizers.TABLES);
 		if (policies.contains("IMAGES")) policy = policy.and(Sanitizers.IMAGES);
