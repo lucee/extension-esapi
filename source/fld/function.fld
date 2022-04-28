@@ -521,7 +521,7 @@ See also https://github.com/OWASP/java-html-sanitizer
 			<name>policy</name>
 			<type>any</type>
 			<required>false</required>
-			<description>Either a org.owasp.html.PolicyFactory or a String with built in Sanitizers. If ommited then 
+			<description>Either a org.owasp.html.PolicyFactory or a String with built in Sanitizers. If omitted then 
 			all of the built-in policies are applied. The built in Sanitizers are:
 - FORMATTING
 - BLOCKS
