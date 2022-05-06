@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.lucee.extension.esapi.functions.FunctionSupport;
-import org.lucee.extension.esapi.log.NirvanaLogFactory;
 
 import lucee.commons.io.res.Resource;
 import lucee.loader.engine.CFMLEngineFactory;
@@ -59,8 +58,6 @@ public class PropertyDeployer {
 	public static void deployIfNecessary() {
 		if (deployed) return;
 
-		NirvanaLogFactory factory = new NirvanaLogFactory();
-
 		Resource dir; // TODO better way to get a dir
 		try {
 			dir = CFMLEngineFactory.getInstance().getSystemUtil().getTempDirectory();
@@ -69,6 +66,14 @@ public class PropertyDeployer {
 			dir = CFMLEngineFactory.getInstance().getSystemUtil().getSystemDirectory();
 		}
 
+		// delete the old property files
+		dir = dir.getRealResource("properties");
+		Resource f = dir.getRealResource("ESAPI.properties");
+		if (f.isFile()) f.delete();
+		f = dir.getRealResource("validation.properties");
+		if (f.isFile()) f.delete();
+
+		// create the new property files
 		dir = dir.getRealResource("esapi224");
 		String file = dir.getReal("ESAPI.properties");
 		create("/org/lucee/extension/esapi/resource/", "ESAPI.properties", dir);
