@@ -23,7 +23,7 @@ import lucee.runtime.exp.PageException;
 
 public final class SanitizeHTML extends FunctionSupport {
 
-	public static final PolicyFactory TAG_STYLE = new HtmlPolicyBuilder().allowElements("style").allowTextIn​("style").toFactory();
+	public static final PolicyFactory TAG_STYLE = new HtmlPolicyBuilder().allowElements("style").allowTextIn("style").toFactory();
 
 	// FORMATTING, BLOCKS, STYLES, LINKS, TABLES, IMAGES
 	public static final PolicyFactory POLICY_ALL_BUILTIN = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS).and(Sanitizers.STYLES).and(TAG_STYLE)
