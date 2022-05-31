@@ -10,6 +10,10 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi"{
 				expect(trim(testfunc_writeoutput(""))).toBe("brad <br> wood");
 			});
 
+			it( title="writeoutput() with encodefor = html", body=function( currentSpec ) {
+				expect(trim(testfunc_writeoutput("html"))).toBe("brad &lt;br&gt; wood");
+			});
+
 			it( title="cfoutput with encodefor = none", body=function( currentSpec ) {
 				expect(trim(testfunc_cfoutput("none"))).toBe("brad <br> wood");
 			});
@@ -17,6 +21,11 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi"{
 			it( title="cfoutput with encodefor = empty string", body=function( currentSpec ) {
 				expect(trim(testfunc_cfoutput(""))).toBe("brad <br> wood");
 			});
+
+			it( title="cfoutput with encodefor = html", body=function( currentSpec ) {
+				expect(trim(testfunc_cfoutput("html"))).toBe("brad &lt;br&gt; wood");
+			});
+			
 		});
 	}
 	
