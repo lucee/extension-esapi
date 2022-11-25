@@ -51,6 +51,7 @@ public class ESAPIEncode extends FunctionSupport {
 	public static final short ENC_XML = 12;
 	public static final short ENC_XML_ATTR = 13;
 	public static final short ENC_XPATH = 14;
+	public static final short ENC_NONE = 15;
 
 	public static String encode(String item, short encFor, boolean canonicalize) throws PageException {
 		return encode(item, encFor, canonicalize, null);
@@ -76,6 +77,8 @@ public class ESAPIEncode extends FunctionSupport {
 				return encoder.encodeForJavaScript(item);
 			case ENC_LDAP:
 				return encoder.encodeForLDAP(item);
+			case ENC_NONE:
+				return item;
 			case ENC_URL:
 				return encoder.encodeForURL(item);
 			case ENC_VB_SCRIPT:
@@ -146,6 +149,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("java script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
 		else if ("java-script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
 		else if ("ldap".equals(strEncodeFor)) return ENC_LDAP;
+		else if("".equals(strEncodeFor) || "none".equals(strEncodeFor)) return ENC_NONE;
 		// else if("".equals(strEncodeFor)) encFor=ENC_OS;
 		else if ("sql".equals(strEncodeFor)) return ENC_SQL;
 		else if ("url".equals(strEncodeFor)) return ENC_URL;
