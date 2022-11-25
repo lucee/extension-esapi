@@ -3,7 +3,7 @@ Bundle-Description: Logger class for ESAPI
 Bundle-ManifestVersion: 2
 Bundle-Name: org.lucee.esapi-logger
 Bundle-SymbolicName: org.lucee.esapi-logger
-Bundle-Version: 1.0.2
-Require-Bundle: org.lucee.esapi;bundle-version=2.2.3.10001L
+Bundle-Version: 1.0.3
+Require-Bundle: org.lucee.esapi;bundle-version=2.2.3.10002L
 Export-Package: org.lucee.extension.esapi.log
 Import-Package: org.owasp.esapi
