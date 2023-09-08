@@ -18,45 +18,58 @@
  **/
 package org.lucee.extension.esapi.functions;
 
-import lucee.runtime.PageContext;
-import lucee.runtime.ext.function.Function;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import lucee.runtime.PageContext;
+import lucee.runtime.exp.PageException;
 
-public class Canonicalize implements Function {
+public class Canonicalize extends FunctionSupport {
 
 	private static final long serialVersionUID = -4248746351014698481L;
 
-	public static String call(PageContext pc,String input, boolean restrictMultiple, boolean restrictMixed) throws
-		Exception{
-	
+	public static String call(PageContext pc, String input, boolean restrictMultiple, boolean restrictMixed) throws PageException {
 		return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, false);
 	}
 
-	public static String call(PageContext pc,String input, boolean restrictMultiple, boolean restrictMixed, boolean throwonError) throws Exception{
-		
+	public static String call(PageContext pc, String input, boolean restrictMultiple, boolean restrictMixed, boolean throwonError) throws PageException {
+
 		String str = input;
 		String decodeUrl = " ";
-        String strFind = "%";
-        int count = 0, fromIndex = 0;
-        
-        while ((fromIndex = str.indexOf(strFind, fromIndex)) != -1 ){
-            count++;
-            fromIndex++;
-        }
+		String strFind = "%";
+		int count = 0, fromIndex = 0;
 
-		decodeUrl = URLDecoder.decode(input, "UTF-8");
+		while ((fromIndex = str.indexOf(strFind, fromIndex)) != -1) {
+			count++;
+			fromIndex++;
+		}
 
-		if(decodeUrl == input) return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
-			
+		try {
+			decodeUrl = URLDecoder.decode(input, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e) {
+			throw cast.toPageException(e);
+		}
+
+		if (decodeUrl == input) return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
+
 		else {
-			if(throwonError == false && (restrictMultiple == true || restrictMixed == true)) {
-				if(count > 0) return " ";
+			if (throwonError == false && (restrictMultiple == true || restrictMixed == true)) {
+				if (count > 0) return " ";
 				else return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
 			}
 			else {
 				return ESAPIEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
 			}
 		}
+	}
+
+	@Override
+	public Object invoke(PageContext pc, Object[] args) throws PageException {
+		if (args.length == 4) return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), cast.toBooleanValue(args[2]), cast.toBooleanValue(args[3]));
+		if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), cast.toBooleanValue(args[2]), false);
+		if (args.length == 2) return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), false, false);
+		if (args.length == 1) return call(pc, cast.toString(args[0]), false, false, false);
+		throw exp.createFunctionException(pc, "Canonicalize", 3, 4, args.length);
 	}
 }
