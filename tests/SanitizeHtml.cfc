@@ -1,4 +1,4 @@
-component extends="org.lucee.cfml.test.LuceeTestCase"{
+component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi" {
 
     function run( testResults , testBox ) {
         describe( title = "Testcase for sanitizeHTML function", body = function() {
