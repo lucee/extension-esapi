@@ -149,7 +149,7 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("java script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
 		else if ("java-script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
 		else if ("ldap".equals(strEncodeFor)) return ENC_LDAP;
-		else if("".equals(strEncodeFor) || "none".equals(strEncodeFor)) return ENC_NONE;
+		else if ("".equals(strEncodeFor) || "none".equals(strEncodeFor)) return ENC_NONE;
 		// else if("".equals(strEncodeFor)) encFor=ENC_OS;
 		else if ("sql".equals(strEncodeFor)) return ENC_SQL;
 		else if ("url".equals(strEncodeFor)) return ENC_URL;
@@ -182,20 +182,20 @@ public class ESAPIEncode extends FunctionSupport {
 
 	}
 
-        public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed,boolean throwOnError) throws Exception {
+	public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed, boolean throwOnError) throws PageException {
 		if (eng.getStringUtil().isEmpty(input)) return input;
-	
+
 		try {
-		   Encoder encoder = ESAPI.encoder();
-		    String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
-		    return item;
+			Encoder encoder = ESAPI.encoder();
+			String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
+			return item;
 		}
-		catch(Exception e) {
-	        if(throwOnError == false) return "";
-	        throw cast.toPageException(e);
+		catch (Exception e) {
+			if (throwOnError == false) return "";
+			throw cast.toPageException(e);
 		}
-		
-        }
+
+	}
 
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {

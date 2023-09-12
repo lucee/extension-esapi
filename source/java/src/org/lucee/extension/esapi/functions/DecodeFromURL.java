@@ -20,13 +20,18 @@ package org.lucee.extension.esapi.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
-import lucee.runtime.ext.function.Function;
 
-public class DecodeFromURL implements Function{
+public class DecodeFromURL extends FunctionSupport {
 
 	private static final long serialVersionUID = -7726736527978825663L;
 
-	public static String call(PageContext pc , String item) throws PageException  {
+	public static String call(PageContext pc, String item) throws PageException {
 		return ESAPIDecode.decode(item, ESAPIDecode.DEC_URL);
+	}
+
+	@Override
+	public Object invoke(PageContext pc, Object[] args) throws PageException {
+		if (args.length == 1) return call(pc, cast.toString(args[0]));
+		throw exp.createFunctionException(pc, "DecodeFromURL", 1, 1, args.length);
 	}
 }
