@@ -8,6 +8,9 @@ import org.lucee.extension.esapi.functions.FunctionSupport;
 
 import lucee.commons.io.res.Resource;
 import lucee.loader.engine.CFMLEngineFactory;
+import lucee.runtime.config.Config;
+import lucee.runtime.config.ConfigServer;
+import lucee.runtime.config.ConfigWeb;
 import lucee.runtime.util.IO;
 
 public class PropertyDeployer {
@@ -55,26 +58,26 @@ public class PropertyDeployer {
 		}
 	}
 
-	public static void deployIfNecessary() {
+	public static void deployIfNecessaryX() {
 		if (deployed) return;
 
-		Resource dir; // TODO better way to get a dir
-		try {
-			dir = CFMLEngineFactory.getInstance().getSystemUtil().getTempDirectory();
+		Config config = CFMLEngineFactory.getInstance().getThreadConfig();
+		Resource dir = null;
+		if (config instanceof ConfigWeb) {
+			dir = ((ConfigWeb) config).getConfigServerDir().getRealResource("esapi");
 		}
-		catch (IOException e) {
-			dir = CFMLEngineFactory.getInstance().getSystemUtil().getSystemDirectory();
+		else if (config instanceof ConfigServer) {
+			dir = config.getConfigDir().getRealResource("esapi");
 		}
-
-		// delete the old property files
-		dir = dir.getRealResource("properties");
-		Resource f = dir.getRealResource("ESAPI.properties");
-		if (f.isFile()) f.delete();
-		f = dir.getRealResource("validation.properties");
-		if (f.isFile()) f.delete();
-
+		else {
+			try {
+				dir = CFMLEngineFactory.getInstance().getSystemUtil().getTempDirectory().getRealResource("esapi224");
+			}
+			catch (IOException e) {
+				dir = CFMLEngineFactory.getInstance().getSystemUtil().getSystemDirectory().getRealResource("esapi224");
+			}
+		}
 		// create the new property files
-		dir = dir.getRealResource("esapi224");
 		String file = dir.getReal("ESAPI.properties");
 		create("/org/lucee/extension/esapi/resource/", "ESAPI.properties", dir);
 		create("/org/lucee/extension/esapi/resource/", "validation.properties", dir);
