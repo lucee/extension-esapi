@@ -58,7 +58,7 @@ public class PropertyDeployer {
 		}
 	}
 
-	public static void deployIfNecessaryX() {
+	public static void deployIfNecessary() {
 		if (deployed) return;
 
 		Config config = CFMLEngineFactory.getInstance().getThreadConfig();
