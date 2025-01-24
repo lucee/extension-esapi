@@ -27,7 +27,6 @@ public class PropertyDeployer {
 
 	static boolean fileDiff(String resource, Resource file) {
 		try {
-			file.delete();
 
 			InputStream is = FunctionSupport.class.getResourceAsStream(resource);
 			if (is == null) throw new IOException("file [" + resource + "] does not exist.");
@@ -35,7 +34,6 @@ public class PropertyDeployer {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			IO io = CFMLEngineFactory.getInstance().getIOUtil();
 			io.copy(is, baos, true, true);
-			byte[] input = baos.toByteArray();
 			boolean diff = baos.toByteArray().length != file.length();
 			return diff;
 		}
