@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Export-Package: org.lucee.extension.esapi,org.lucee.extension.esapi.functions
 Bundle-ManifestVersion: 2
-Require-Bundle: org.lucee.esapi;bundle-version=2.2.3.10006L
+Require-Bundle: org.lucee.esapi;bundle-version=2.6.0.0
  ,com.google.guava;bundle-version=30.1.0.jre
  ,com.google.guava.failureaccess;bundle-version=1.0.1
  ,com.googlecode.owasp-java-html-sanitizer;bundle-version=20211018.2.0
