@@ -31,13 +31,8 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi"{
 	
 	private function testfunc_writeoutput(required string encodefor) {
 		cfsavecontent(variable="result") {
-			try {
 				var name = "brad <br> wood" ;
 				writeoutput(name,arguments.encodefor);
-			}
-			catch(any e) {
-				writeoutput(e.message);
-			}
 		}
 		return result;
 	}
