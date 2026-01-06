@@ -16,17 +16,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
-public class EncodeForXPath  extends FunctionSupport {
+public final class EncodeForHTML extends FunctionSupport {
 
-	private static final long serialVersionUID = 700921117449046922L;
+	private static final long serialVersionUID = -1508966470286647271L;
 
 	public static String call(PageContext pc , String item, boolean canonicalize) throws PageException  {
-		return ESAPIEncode.encode(item, ESAPIEncode.ENC_XPATH,canonicalize);
+		return ESAPIEncode.encode(item, ESAPIEncode.ENC_HTML,canonicalize);
 	}
 	
 	public static String call(PageContext pc , String item) throws PageException  {
@@ -36,7 +36,6 @@ public class EncodeForXPath  extends FunctionSupport {
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
 		if(args.length==1) return call(pc,cast.toString(args[0]));
 		if(args.length==2) return call(pc,cast.toString(args[0]),cast.toBooleanValue(args[1]));
-		throw exp.createFunctionException(pc, "EncodeForXPath", 1, 2, args.length);
+		throw exp.createFunctionException(pc, "EncodeForHTML", 1, 2, args.length);
 	}
-
 }

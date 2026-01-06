@@ -1,6 +1,6 @@
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
-import org.lucee.extension.esapi.util.PropertyDeployer;
+import org.lucee.extension.owasp.util.PropertyDeployer;
 
 import lucee.loader.engine.CFMLEngine;
 import lucee.loader.engine.CFMLEngineFactory;

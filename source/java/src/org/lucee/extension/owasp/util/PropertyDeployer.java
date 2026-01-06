@@ -1,10 +1,10 @@
-package org.lucee.extension.esapi.util;
+package org.lucee.extension.owasp.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.lucee.extension.esapi.functions.FunctionSupport;
+import org.lucee.extension.owasp.functions.FunctionSupport;
 
 import lucee.commons.io.res.Resource;
 import lucee.loader.engine.CFMLEngineFactory;

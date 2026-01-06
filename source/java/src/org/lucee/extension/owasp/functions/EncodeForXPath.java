@@ -16,22 +16,27 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
-public class DecodeFromURL extends FunctionSupport {
+public class EncodeForXPath  extends FunctionSupport {
 
-	private static final long serialVersionUID = -7726736527978825663L;
+	private static final long serialVersionUID = 700921117449046922L;
 
-	public static String call(PageContext pc, String item) throws PageException {
-		return ESAPIDecode.decode(item, ESAPIDecode.DEC_URL);
+	public static String call(PageContext pc , String item, boolean canonicalize) throws PageException  {
+		return ESAPIEncode.encode(item, ESAPIEncode.ENC_XPATH,canonicalize);
 	}
-
+	
+	public static String call(PageContext pc , String item) throws PageException  {
+		return call(pc, item, false);
+	}
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
-		if (args.length == 1) return call(pc, cast.toString(args[0]));
-		throw exp.createFunctionException(pc, "DecodeFromURL", 1, 1, args.length);
+		if(args.length==1) return call(pc,cast.toString(args[0]));
+		if(args.length==2) return call(pc,cast.toString(args[0]),cast.toBooleanValue(args[1]));
+		throw exp.createFunctionException(pc, "EncodeForXPath", 1, 2, args.length);
 	}
+
 }

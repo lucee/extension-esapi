@@ -1,4 +1,4 @@
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
@@ -9,7 +9,7 @@ public class EncodeForSQL extends FunctionSupport {
 
 	public static String call(PageContext pc, String item, String dialect, boolean canonicalize) throws PageException {
 
-		return ESAPIEncode.encode(item, ESAPIEncode.ENC_SQL, canonicalize, ESAPIEncode.toCodec(dialect));
+		return ESAPIEncode.encode(item, ESAPIEncode.ENC_SQL, canonicalize, dialect);
 	}
 
 	public static String call(PageContext pc, String item, String dialect) throws PageException {

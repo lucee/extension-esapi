@@ -16,18 +16,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
-public final class EncodeForCSS  extends FunctionSupport {
+public final class EncodeForJavaScript  extends FunctionSupport {
 
-	private static final long serialVersionUID = -5842656418143723224L;
-	
-	
-	public static String call(PageContext pc , String item, boolean canonicalize) throws PageException  {
-		return ESAPIEncode.encode(item, ESAPIEncode.ENC_CSS,canonicalize);
+	private static final long serialVersionUID = 6729545070819382659L;
+
+	public static String call(PageContext pc , String item, boolean canonicalize)  throws PageException  {
+		return ESAPIEncode.encode(item, ESAPIEncode.ENC_JAVA_SCRIPT,canonicalize);
 	}
 	
 	public static String call(PageContext pc , String item) throws PageException  {
@@ -37,6 +36,6 @@ public final class EncodeForCSS  extends FunctionSupport {
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
 		if(args.length==1) return call(pc,cast.toString(args[0]));
 		if(args.length==2) return call(pc,cast.toString(args[0]),cast.toBooleanValue(args[1]));
-		throw exp.createFunctionException(pc, "EncodeForCSS", 1, 2, args.length);
+		throw exp.createFunctionException(pc, "EncodeForJavaScript", 1, 2, args.length);
 	}
 }

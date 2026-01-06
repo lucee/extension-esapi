@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;

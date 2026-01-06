@@ -16,7 +16,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;

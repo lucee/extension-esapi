@@ -1,4 +1,4 @@
-package org.lucee.extension.esapi.util;
+package org.lucee.extension.owasp.util;
 
 import java.io.OutputStream;
 import java.io.Serializable;

@@ -1,6 +1,5 @@
 /**
  *
- * Copyright (c) 2014, the Railo Company Ltd. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,26 +15,22 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
-public final class EncodeForHTMLAttribute  extends FunctionSupport {
+public final class DecodeForHTML extends FunctionSupport {
 
-	private static final long serialVersionUID = 2714067291217940292L;
+	private static final long serialVersionUID = -1508966470286647271L;
 
-	public static String call(PageContext pc , String item, boolean canonicalize) throws PageException  {
-		return ESAPIEncode.encode(item, ESAPIEncode.ENC_HTML_ATTR,canonicalize);
+	public static String call(PageContext pc , String encoded) throws PageException  {
+		return ESAPIDecode.decode(encoded, ESAPIDecode.DEC_HTML);
 	}
 	
-	public static String call(PageContext pc , String item) throws PageException  {
-		return call(pc, item, false);
-	}
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
 		if(args.length==1) return call(pc,cast.toString(args[0]));
-		if(args.length==2) return call(pc,cast.toString(args[0]),cast.toBooleanValue(args[1]));
-		throw exp.createFunctionException(pc, "EncodeForHTMLAttribute", 1, 2, args.length);
+		throw exp.createFunctionException(pc, "DecodeForHTML", 1, 1, args.length);
 	}
 }

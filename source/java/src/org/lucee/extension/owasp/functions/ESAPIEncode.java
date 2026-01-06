@@ -16,19 +16,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
-import org.owasp.esapi.ESAPI;
-import org.owasp.esapi.Encoder;
-import org.owasp.esapi.codecs.Codec;
-import org.owasp.esapi.codecs.DB2Codec;
-import org.owasp.esapi.codecs.MySQLCodec;
-import org.owasp.esapi.codecs.MySQLCodec.Mode;
-import org.owasp.esapi.codecs.OracleCodec;
-import org.owasp.esapi.errors.EncodingException;
+import org.lucee.extension.owasp.util.Canonicalize;
+import org.owasp.encoder.Encode;
 
-import lucee.loader.engine.CFMLEngineFactory;
-import lucee.loader.util.Util;
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
@@ -57,62 +49,47 @@ public class ESAPIEncode extends FunctionSupport {
 		return encode(item, encFor, canonicalize, null);
 	}
 
-	public static String encode(String item, short encFor, boolean canonicalize, Codec codec) throws PageException {
+	public static String encode(String item, short encFor, boolean canonicalize, String sqlDialect) throws PageException {
 		if (eng.getStringUtil().isEmpty(item)) return item;
 
 		try {
-			Encoder encoder = ESAPI.encoder();
-			if (canonicalize) item = encoder.canonicalize(item, false);
+			if (canonicalize) item = Canonicalize.canonicalize(item, false);
 
 			switch (encFor) {
 			case ENC_CSS:
-				return encoder.encodeForCSS(item);
-			case ENC_DN:
-				return encoder.encodeForDN(item);
+				return Encode.forCssString(item);
 			case ENC_HTML:
-				return encoder.encodeForHTML(item);
+				return Encode.forHtml(item);
 			case ENC_HTML_ATTR:
-				return encoder.encodeForHTMLAttribute(item);
+				return Encode.forHtmlAttribute(item);
 			case ENC_JAVA_SCRIPT:
-				return encoder.encodeForJavaScript(item);
-			case ENC_LDAP:
-				return encoder.encodeForLDAP(item);
+				return Encode.forJavaScript(item);
 			case ENC_NONE:
 				return item;
 			case ENC_URL:
-				return encoder.encodeForURL(item);
-			case ENC_VB_SCRIPT:
-				return encoder.encodeForVBScript(item);
+				return Encode.forUriComponent(item);
 			case ENC_XML:
-				return encoder.encodeForXML(item);
+				return Encode.forXml(item);
 			case ENC_XML_ATTR:
-				return encoder.encodeForXMLAttribute(item);
+				return Encode.forXmlAttribute(item);
+
+			// These are not supported by OWASP Java Encoder
+			case ENC_DN:
+				throw exp.createApplicationException("DN encoding is not supported. Consider removing or keeping minimal ESAPI dependency.");
+			case ENC_LDAP:
+				throw exp.createApplicationException("LDAP encoding is not supported. Consider removing or keeping minimal ESAPI dependency.");
+			case ENC_VB_SCRIPT:
+				throw exp.createApplicationException("VBScript encoding is not supported. Consider removing this legacy feature.");
 			case ENC_XPATH:
-				return encoder.encodeForXPath(item);
+				throw exp.createApplicationException("XPath encoding is not supported. Consider removing or keeping minimal ESAPI dependency.");
 			case ENC_SQL:
-				return encoder.encodeForSQL(codec, item);
+				throw exp.createApplicationException("SQL encoding should not be used. Use parameterized queries/prepared statements instead.");
 			}
-			throw exp.createApplicationException("invalid target encoding defintion");
+			throw exp.createApplicationException("invalid target encoding definition");
 		}
-		catch (EncodingException ee) {
-			throw cast.toPageException(ee);
+		catch (Exception e) {
+			throw cast.toPageException(e);
 		}
-	}
-
-	public static Codec toCodec(String sqlDialect) throws PageException, RuntimeException {
-		if (!Util.isEmpty(sqlDialect, true)) {
-			sqlDialect = sqlDialect.trim().toLowerCase();
-			if ("mysql_ansi".equals(sqlDialect)) return new MySQLCodec(Mode.ANSI);
-			if ("mysql".equals(sqlDialect)) return new MySQLCodec(Mode.STANDARD);
-			if ("oracle".equals(sqlDialect)) return new OracleCodec();
-			if ("db2".equals(sqlDialect)) return new DB2Codec();
-		}
-		else throw CFMLEngineFactory.getInstance().getExceptionUtil()
-				.createApplicationException("You need to define a SQL dialect, this dialects are supported [db2, mysql, mysql_ansi, oracle]");
-
-		throw CFMLEngineFactory.getInstance().getExceptionUtil()
-				.createApplicationException("SQL dialect [" + sqlDialect + "] is not supported, supported dialects are [db2, mysql, mysql_ansi, oracle]");
-
 	}
 
 	public static String call(PageContext pc, String strEncodeFor, String value) throws PageException {
@@ -125,7 +102,7 @@ public class ESAPIEncode extends FunctionSupport {
 
 	public static String call(PageContext pc, String strEncodeFor, String value, boolean canonicalize, String dialect) throws PageException {
 		short type = toEncodeType(pc, strEncodeFor);
-		return encode(value, type, canonicalize, type == ENC_SQL ? toCodec(dialect) : null);
+		return encode(value, type, canonicalize, dialect);
 	}
 
 	public static short toEncodeType(String strEncodeFor, short defaultValue) {
@@ -150,7 +127,6 @@ public class ESAPIEncode extends FunctionSupport {
 		else if ("java-script".equals(strEncodeFor)) return ENC_JAVA_SCRIPT;
 		else if ("ldap".equals(strEncodeFor)) return ENC_LDAP;
 		else if ("".equals(strEncodeFor) || "none".equals(strEncodeFor)) return ENC_NONE;
-		// else if("".equals(strEncodeFor)) encFor=ENC_OS;
 		else if ("sql".equals(strEncodeFor)) return ENC_SQL;
 		else if ("url".equals(strEncodeFor)) return ENC_URL;
 		else if ("vbs".equals(strEncodeFor)) return ENC_VB_SCRIPT;
@@ -177,24 +153,21 @@ public class ESAPIEncode extends FunctionSupport {
 		short encFor = toEncodeType(strEncodeFor, df);
 		if (encFor != df) return encFor;
 
-		String msg = "value [" + strEncodeFor + "] is invalid, valid values are " + "[css,dn,html,html_attr,javascript,ldap,sql,vbscript,xml,xml_attr,xpath]";
+		String msg = "value [" + strEncodeFor + "] is invalid, valid values are " + "[css,html,html_attr,javascript,url,xml,xml_attr]";
 		throw exp.createApplicationException(msg);
-
 	}
 
+	/**
+	 * Canonicalization is not supported by OWASP Java Encoder Keep ESAPI dependency if this feature is
+	 * needed, or remove it entirely
+	 */
 	public static String canonicalize(String input, boolean restrictMultiple, boolean restrictMixed, boolean throwOnError) throws PageException {
 		if (eng.getStringUtil().isEmpty(input)) return input;
 
-		try {
-			Encoder encoder = ESAPI.encoder();
-			String item = encoder.canonicalize(input, restrictMultiple, restrictMixed);
-			return item;
+		if (throwOnError) {
+			throw exp.createApplicationException("Canonicalization is not supported with OWASP Java Encoder. Use ESAPI for this feature or remove this functionality.");
 		}
-		catch (Exception e) {
-			if (throwOnError == false) return "";
-			throw cast.toPageException(e);
-		}
-
+		return input; // Return unchanged if not throwing error
 	}
 
 	@Override
@@ -204,5 +177,4 @@ public class ESAPIEncode extends FunctionSupport {
 		if (args.length == 4) return call(pc, cast.toString(args[0]), cast.toString(args[1]), cast.toBooleanValue(args[2]), cast.toString(args[3]));
 		throw exp.createFunctionException(pc, "ESAPIEncode", 2, 4, args.length);
 	}
-
 }

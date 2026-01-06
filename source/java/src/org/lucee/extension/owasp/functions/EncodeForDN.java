@@ -16,17 +16,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  **/
-package org.lucee.extension.esapi.functions;
+package org.lucee.extension.owasp.functions;
 
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
-public class EncodeForXML  extends FunctionSupport {
+public class EncodeForDN  extends FunctionSupport {
 
-	private static final long serialVersionUID = 5444473809538999699L;
+	private static final long serialVersionUID = -3276058916547934830L;
 
 	public static String call(PageContext pc , String item, boolean canonicalize) throws PageException  {
-		return ESAPIEncode.encode(item, ESAPIEncode.ENC_XML,canonicalize);
+		return ESAPIEncode.encode(item, ESAPIEncode.ENC_DN,canonicalize);
 	}
 	
 	public static String call(PageContext pc , String item) throws PageException  {
@@ -36,6 +36,6 @@ public class EncodeForXML  extends FunctionSupport {
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
 		if(args.length==1) return call(pc,cast.toString(args[0]));
 		if(args.length==2) return call(pc,cast.toString(args[0]),cast.toBooleanValue(args[1]));
-		throw exp.createFunctionException(pc, "EncodeForXML", 1, 2, args.length);
+		throw exp.createFunctionException(pc, "EncodeForDN", 1, 2, args.length);
 	}
 }

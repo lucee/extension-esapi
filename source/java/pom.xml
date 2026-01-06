@@ -213,12 +213,12 @@
   
   
     <dependencies>
+
 	<dependency>
-	    <groupId>org.owasp.esapi</groupId>
-	    <artifactId>esapi</artifactId>
-	    <version>2.7.0.0</version>
+	    <groupId>org.owasp.encoder</groupId>
+	    <artifactId>encoder</artifactId>
+	    <version>1.4.0</version>
 	</dependency>
-	
 
 	<dependency>
 	    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
