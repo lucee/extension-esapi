@@ -25,8 +25,8 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 
             it( "strips unsafe characters when simplify is enabled", function() {
                 // The input contains ^ and \ which our isSafe() method excludes
-                var input = "Safe!@# but ^ and \ are not.";
-                var expected = "Safe!@# but  and  are not."; 
+                var input = "Safe!@## but ^ and \ are not.";
+                var expected = "Safe!@## but  and  are not."; 
                 
                 // Third argument is 'simplify'
                 expect( canonicalize( input, false, true ) ).toBe( expected );
