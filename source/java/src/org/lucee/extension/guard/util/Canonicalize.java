@@ -6,6 +6,7 @@ import java.net.URLDecoder;
 import lucee.loader.engine.CFMLEngine;
 import lucee.loader.engine.CFMLEngineFactory;
 import lucee.runtime.exp.PageException;
+import lucee.runtime.util.Strings;
 
 public class Canonicalize {
 
@@ -23,8 +24,10 @@ public class Canonicalize {
 		if (input == null || input.isEmpty()) {
 			return input;
 		}
+		String placeholder = "djkilbmop";
+		Strings util = CFMLEngineFactory.getInstance().getStringUtil();
+		String working = util.replace(input, "+", placeholder, false, true);
 
-		String working = input;
 		String previous;
 		int iterations = 0;
 		boolean multipleEncodingDetected = false;
@@ -67,8 +70,7 @@ public class Canonicalize {
 		if (throwOnMultiple && multipleEncodingDetected) {
 			throw new SecurityException("Multiple encoding layers detected in input: " + input);
 		}
-
-		return working;
+		return util.replace(working, placeholder, "+", false, true);
 	}
 
 	private static String decodeHtmlEntities(String input) {
