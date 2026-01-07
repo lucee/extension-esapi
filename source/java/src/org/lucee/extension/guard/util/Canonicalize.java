@@ -42,9 +42,11 @@ public class Canonicalize {
 		if (Character.isLetterOrDigit(c)) {
 			return true;
 		}
+
 		// Allow common "inert" punctuation
 		switch (c) {
 		case ' ':
+		case '#':
 		case '-':
 		case '_':
 		case '.':
@@ -53,6 +55,23 @@ public class Canonicalize {
 		case ',':
 		case '!':
 		case '?':
+		case '$':
+		case '&':
+		case '*':
+		case '(':
+		case ')':
+		case '+':
+		case '{':
+		case '}':
+		case '[':
+		case ']':
+		case '<':
+		case '>':
+		case '"':
+		case ';':
+		case '~':
+		case '`':
+		case '\'':
 			return true;
 		default:
 			return false;
