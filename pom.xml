@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.w3.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.lucee</groupId>
-    <artifactId>guard-extension</artifactId>
-    <version>3.0.0.8-ALPHA</version>
+    <artifactId>esapi-extension</artifactId>
+    <version>3.0.0.9-ALPHA</version>
     <packaging>pom</packaging>
     <name>Guard Extension</name>
 
@@ -13,7 +13,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <id>37C61C0A-5D7E-4256-8572639BE0CF5838</id>
-        <bundlename>guard.extension</bundlename>
+        <bundlename>esapi.extension</bundlename>
         <luceeCoreVersion>5.3.0.36</luceeCoreVersion>
         <releaseType>server</releaseType>
         <label>Guard extension</label>
@@ -22,9 +22,9 @@
     </properties>
 
     <scm>
-        <url>https://github.com/lucee/extension-guard</url>
-        <connection>scm:git:git://github.com/lucee/extension-guard.git</connection>
-        <developerConnection>scm:git:git@github.com:lucee/extension-guard.git</developerConnection>
+        <url>https://github.com/lucee/extension-esapi</url>
+        <connection>scm:git:git://github.com/lucee/extension-esapi.git</connection>
+        <developerConnection>scm:git:git@github.com:lucee/extension-esapi.git</developerConnection>
         <tag>${project.version}</tag>
     </scm>
 
@@ -52,7 +52,7 @@
     </developers>
 
     <description>Provides the Guard security suite for Lucee Server, offering a robust set of functions for contextual output encoding, input canonicalization, and HTML sanitization. Designed to mitigate injection-based vulnerabilities like XSS and SQLi, this extension ensures data is safely handled across various web contexts.</description>
-    <url>https://github.com/lucee/extension-guard</url>
+    <url>https://github.com/lucee/extension-esapi</url>
 
     <profiles>
         <profile>

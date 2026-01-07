@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="clean" basedir="." name="guard-extension">
+<project default="clean" basedir="." name="esapi-extension">
 	<description>
         Build Guard Extension
     </description>
@@ -122,15 +122,15 @@ start-bundles: false
     <!-- copy the flds necessary -->
     <copy 
       file="${srcFld}/function.fld" 
-      tofile="${dist}/extension/flds/guard-function.fld" />
+      tofile="${dist}/extension/flds/esapi-function.fld" />
 
     <replaceregexp 
-      file="${dist}/extension/flds/guard-function.fld" 
+      file="${dist}/extension/flds/esapi-function.fld" 
       match="\{bundle-name\}" 
       replace="${bundlename}" 
       byline="true"/>
     <replaceregexp 
-      file="${dist}/extension/flds/guard-function.fld" 
+      file="${dist}/extension/flds/esapi-function.fld" 
       match="\{bundle-version\}" 
       replace="${bundleversion}" 
       byline="true"/>
