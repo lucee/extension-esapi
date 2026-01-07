@@ -47,10 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     env:
-      LUCEE_TEST_VERSIONS_71: ${{ vars.LUCEE_TEST_VERSIONS_71 }}
+      LUCEE_TEST_VERSIONS_PLUS: ${{ vars.LUCEE_TEST_VERSIONS_PLUS }}
     strategy:
       matrix:
-        lucee: ${{ fromJSON(vars.LUCEE_TEST_VERSIONS_71) }}
+        lucee: ${{ fromJSON(vars.LUCEE_TEST_VERSIONS_PLUS) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -72,7 +72,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: esapi-lex-${{ matrix.lucee.version }}
+          name: guard-lex-${{ matrix.lucee.version }}
           path: target/*.lex
 
       - name: Checkout Lucee
@@ -91,7 +91,7 @@ jobs:
           luceeVersionQuery: ${{ matrix.lucee.query }}
           extensionDir: ${{ github.workspace }}/target
         env:
-          testLabels: esapi
+          testLabels: guard
           testAdditional: ${{ github.workspace }}/tests
           LUCEE_ADMIN_PASSWORD: admin
 

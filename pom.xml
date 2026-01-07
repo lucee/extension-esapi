@@ -3,35 +3,28 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.w3.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.lucee</groupId>
-    <artifactId>esapi-extension</artifactId>
-    <version>3.0.0.1-ALPHA</version>
+    <artifactId>guard-extension</artifactId>
+    <version>3.0.0.8-ALPHA</version>
     <packaging>pom</packaging>
-    <name>ESAPI Extension</name>
+    <name>Guard Extension</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <id>37C61C0A-5D7E-4256-8572639BE0CF5838</id>
-        <bundlename>esapi.extension</bundlename>
+        <bundlename>guard.extension</bundlename>
         <luceeCoreVersion>5.3.0.36</luceeCoreVersion>
-        
-        <mvnGroupId>org.lucee</mvnGroupId>
-        <mvnGroupPath>org/lucee</mvnGroupPath>
-        <mvnArtifactId>esapi</mvnArtifactId>
-        <filename>esapi-extension</filename>
-        <luceeCoreVersion>7.0.0.0</luceeCoreVersion>
-        <camelname>ESAPI</camelname>
         <releaseType>server</releaseType>
-        <label>ESAPI extension</label>
+        <label>Guard extension</label>
         <release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.url>
         <snapshot.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.url>
     </properties>
 
     <scm>
-        <url>https://github.com/lucee/extension-esapi</url>
-        <connection>scm:git:git://github.com/lucee/extension-esapi.git</connection>
-        <developerConnection>scm:git:git@github.com:lucee/extension-esapi.git</developerConnection>
+        <url>https://github.com/lucee/extension-guard</url>
+        <connection>scm:git:git://github.com/lucee/extension-guard.git</connection>
+        <developerConnection>scm:git:git@github.com:lucee/extension-guard.git</developerConnection>
         <tag>${project.version}</tag>
     </scm>
 
@@ -58,8 +51,8 @@
         </developer>
     </developers>
 
-    <description>Provides OWASP ESAPI (Enterprise Security API) functions for Lucee Server to enhance application security. Includes encoding, encryption, validation, and sanitization methods to protect against XSS, SQL injection, and other common web vulnerabilities.</description>
-    <url>https://github.com/lucee/extension-esapi</url>
+    <description>Provides the Guard security suite for Lucee Server, offering a robust set of functions for contextual output encoding, input canonicalization, and HTML sanitization. Designed to mitigate injection-based vulnerabilities like XSS and SQLi, this extension ensures data is safely handled across various web contexts.</description>
+    <url>https://github.com/lucee/extension-guard</url>
 
     <profiles>
         <profile>
@@ -135,16 +128,7 @@
                                     <property name="description" value="${project.description}"/>
                                     <property name="srcversion" value="${maven.compiler.source}"/>
                                     <property name="trgversion" value="${maven.compiler.target}"/>
-                                    <property name="camelname" value="${camelname}"/>
-                                    <property name="maven.goal" value="${goal}"/>
-                                    <property name="mvnGroupId" value="${mvnGroupId}"/>
-                                    <property name="mvnGroupPath" value="${mvnGroupPath}"/>
-                                    <property name="mvnArtifactId" value="${mvnArtifactId}"/>
-                                    <property name="mvnVersion" value="${project.version}"/>
                                 
-                                    <property name="maven.username" value="${env.MAVEN_USERNAME}"/>
-                                    <property name="maven.password" value="${env.MAVEN_PASSWORD}"/>
-                                    <property name="gpg.passphrase" value="${env.GPG_PASSPHRASE}"/>
 </ant>
                                 <condition property="isSnapshot" value="true" else="false">
                                     <matches string="${project.version}" pattern=".*-SNAPSHOT"/>

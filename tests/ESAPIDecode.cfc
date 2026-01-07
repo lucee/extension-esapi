@@ -1,16 +1,16 @@
-component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi"{
+component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard"{
 	function run( testResults , testBox ) {
-		describe( "test case for esapiDecode", function() {
-			it(title = "Checking esapiDecode with decodeFrom='html'", body = function( currentSpec ) {
+		describe( "test case for guardDecode", function() {
+			it(title = "Checking guardDecode with decodeFrom='html'", body = function( currentSpec ) {
 				var inputString = "<script>";
-				enc = esapiEncode('html', inputString);
-				dec = esapiDecode("html", enc);
+				enc = guardEncode('html', inputString);
+				dec = guardDecode("html", enc);
 				assertEquals(dec, inputString);
 			});
-			it(title = "Checking esapiDecode with decodeFrom='url'", body = function( currentSpec ) {
+			it(title = "Checking guardDecode with decodeFrom='url'", body = function( currentSpec ) {
 				var inputUrl = "https://download.lucee.org";
-				enc = esapiEncode('url', inputUrl);
-				dec = esapiDecode("url", enc);
+				enc = guardEncode('url', inputUrl);
+				dec = guardDecode("url", enc);
 				assertEquals(dec, inputUrl);
 			});
 		});

@@ -3,69 +3,98 @@
 	"dtd/web-cfmfunctionlibrary_1_0.dtd">
 <func-lib>
 	<flib-version>1.00</flib-version>
-	<short-name>esapi</short-name>
-	<uri>http://extension.lucee.org/function/esapi</uri>
-	<display-name>OWASP - ESAPI</display-name>
+	<short-name>guard</short-name>
+	<uri>http://extension.lucee.org/function/guard</uri>
+	<display-name>Guard</display-name>
 	<description>
-		OWASP ESAPI functions
+		Provides the Guard security suite for Lucee Server, offering a robust set of functions for contextual output encoding, input canonicalization, and HTML sanitization. Designed to mitigate injection-based vulnerabilities like XSS and SQLi, this extension ensures data is safely handled across various web contexts.
 	</description>
 
-	<!-- ESAPIDecode -->
+	<!-- GuardDecode -->
 	<function>
-		<name>ESAPIDecode</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.ESAPIDecode</class>
-		<keywords>ESAPI</keywords>
-		<description>Decodes a string that has been encoded with ESAPIEncode.</description>
+		<name>GuardDecode</name>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardDecode</class>
+		<keywords>decode,security,url,unencode</keywords>
+		<description>Reverses encoding on a string to retrieve its original value. Useful for processing encoded input before validation.</description>
 		<argument>
 			<name>decodeFrom</name>
 			<type>string</type>
 			<required>Yes</required>
-			<description>given value is encoded as:
-- url
-			</description>
+			<description>The encoding format to reverse. Valid values:
+- url: Decodes standard URL-encoded strings.
+        </description>
 		</argument>
 		<argument>
 			<name>string</name>
 			<type>string</type>
 			<required>Yes</required>
-			<description>string to encode</description>
+			<description>The encoded string to process.</description>
 		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
 
-	<!-- ESAPIEncode -->
+	<!-- ESAPIDecode -->
 	<function>
-		<name>ESAPIEncode</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.ESAPIEncode</class>
-		<keywords>ESAPI,CSS,DN,HTML,JavaScript,ldap,URL,SQL,VBScript,XML</keywords>
+		<name>ESAPIDecode</name>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardDecode</class>
+		<keywords>decode,security,url,unencode</keywords>
 		<status>deprecated</status>
-		<description>Encodes the given string for safe output to reduce the risk of Cross Site Scripting attacks.</description>
+		<description>Deprecated legacy function. Use GuardDecode instead.</description>
 		<argument>
-			<name>encodeFor</name>
+			<name>decodeFrom</name>
 			<type>string</type>
 			<required>Yes</required>
-			<description>encode for what, valid values are:
-- css: for output inside Cascading Style Sheets (CSS)
-- dn: for output in LDAP Distinguished Names
-- html: for output inside HTML
-- html_attr: for output inside HTML Attributes
-- javascript: for output inside Javascript
-- ldap: for output in LDAP queries
-- url: for output in URL
-- sql: for output in a query
-- vbscript: for output inside vbscript
-- xml: for output inside XML
-- xml_attr: for output inside XML Attributes
-- xpath: for output in XPath
-			</description>
+			<description>The encoding format to reverse. Valid values:
+- url: Decodes standard URL-encoded strings.
+        </description>
 		</argument>
 		<argument>
 			<name>string</name>
 			<type>string</type>
 			<required>Yes</required>
-			<description>string to encode</description>
+			<description>The encoded string to process.</description>
+		</argument>
+		<return>
+			<type>string</type>
+		</return>
+	</function>
+
+
+	<!-- GuardEncode -->
+	<function>
+		<name>GuardEncode</name>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardEncode</class>
+		<keywords>encode,xss,security,html,javascript,css,url,sql,xml,ldap,xpath</keywords>
+   		<description>Deprecated legacy function. Use context-specific functions (e.g., encodeForHTML) instead.
+
+   			Encodes data for a specific output context. This is a vital defense against Cross-Site Scripting (XSS) and injection attacks by ensuring characters are treated as data rather than executable code.</description>
+    	<status>deprecated</status>
+		<argument>
+			<name>encodeFor</name>
+			<type>string</type>
+			<required>Yes</required>
+			<description>The target output context. Valid values:
+- css: for style sheets
+- dn: for LDAP Distinguished Names
+- html: for HTML body content
+- html_attr: for HTML attributes (e.g., value, title)
+- javascript: for script blocks or event handlers
+- ldap: for LDAP search filters
+- url: for URI components
+- sql: for database query literals
+- vbscript: for legacy VBScript contexts
+- xml: for XML element content
+- xml_attr: for XML attribute values
+- xpath: for XPath query parameters
+        </description>
+		</argument>
+		<argument>
+			<name>string</name>
+			<type>string</type>
+			<required>Yes</required>
+			<description>The raw string to be encoded.</description>
 		</argument>
 		<argument>
 			<name>canonicalize</name>
@@ -73,30 +102,89 @@
 			<required>No</required>
 			<default>false</default>
 			<introduced>5.0.0.0</introduced>
-			<description>If set to true, canonicalization happens before encoding. If set to false, the given input string will just be encoded. The default value for canonicalize is false. When this parameter is not specified, canonicalization will not happen. By default, when canonicalization is performed, both mixed and multiple encodings will be allowed. To use any other combinations you should canonicalize using canonicalize method and then do encoding.</description>
+			<description>If true, simplifies the input (resolving multiple/mixed encoding) before applying the new encoding. This prevents bypass attacks using double-encoding.</description>
 		</argument>
 		<argument>
 			<name>dialect</name>
 			<type>string</type>
 			<required>no</required>
-			<description>Only used when "encodeFor" is set to "sql". This defines the SQL dialect used. Possible values are:
-				* db2
-				* mysql_ansi
-				* mysql
-				* oracle
-			</description>
+			<description>Required only if encodeFor is 'sql'. Specifies the database syntax:
+* db2
+* mysql_ansi
+* mysql
+* oracle
+        </description>
 		</argument>
 		<return>
 			<type>string</type>
 		</return>
 	</function>
 
+
+	<!-- ESAPIEncode -->
+	<function>
+		<name>ESAPIEncode</name>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardEncode</class>
+		<keywords>CSS,DN,HTML,JavaScript,ldap,URL,SQL,VBScript,XML</keywords>
+		<status>deprecated</status>
+    	<description>Deprecated legacy function. Use context-specific functions (e.g., encodeForHTML) instead.</description>
+
+    	<argument>
+			<name>encodeFor</name>
+			<type>string</type>
+			<required>Yes</required>
+			<description>The target output context. Valid values:
+- css: for style sheets
+- dn: for LDAP Distinguished Names
+- html: for HTML body content
+- html_attr: for HTML attributes (e.g., value, title)
+- javascript: for script blocks or event handlers
+- ldap: for LDAP search filters
+- url: for URI components
+- sql: for database query literals
+- vbscript: for legacy VBScript contexts
+- xml: for XML element content
+- xml_attr: for XML attribute values
+- xpath: for XPath query parameters
+        </description>
+		</argument>
+		<argument>
+			<name>string</name>
+			<type>string</type>
+			<required>Yes</required>
+			<description>The raw string to be encoded.</description>
+		</argument>
+		<argument>
+			<name>canonicalize</name>
+			<type>boolean</type>
+			<required>No</required>
+			<default>false</default>
+			<introduced>5.0.0.0</introduced>
+			<description>If true, simplifies the input (resolving multiple/mixed encoding) before applying the new encoding. This prevents bypass attacks using double-encoding.</description>
+		</argument>
+		<argument>
+			<name>dialect</name>
+			<type>string</type>
+			<required>no</required>
+			<description>Required only if encodeFor is 'sql'. Specifies the database syntax:
+* db2
+* mysql_ansi
+* mysql
+* oracle
+        </description>
+		</argument>
+		<return>
+			<type>string</type>
+		</return>
+	</function>
+
+
 	<!-- decodeForHTML -->
 	<function>
 		<name>decodeForHTML</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.DecodeForHTML</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.DecodeForHTML</class>
 		<member-name>decodeForHTML</member-name>
-		<keywords>encode,ESAPI,HTML</keywords>
+		<keywords>encode,HTML</keywords>
 		<description>Decodes the given encoded string.</description>
 		<argument>
 			<name>string</name>
@@ -112,9 +200,9 @@
 	<!-- encodeForHTML -->
 	<function>
 		<name>encodeForHTML</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForHTML</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForHTML</class>
 		<member-name>encodeForHTML</member-name>
-		<keywords>encode,ESAPI,HTML</keywords>
+		<keywords>encode,HTML</keywords>
 		<description>Encodes the given string for safe output in HTML to reduce the risk of Cross Site Scripting attacks.</description>
 		<argument>
 			<name>string</name>
@@ -138,9 +226,9 @@
 	<!-- encodeForHTMLAttribute -->
 	<function>
 		<name>encodeForHTMLAttribute</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForHTMLAttribute</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForHTMLAttribute</class>
 		<member-name>encodeForHTMLAttribute</member-name>
-		<keywords>ESAPI,HTML</keywords>
+		<keywords>HTML</keywords>
 		<description>Encodes the given string for safe output in HTML to reduce the risk of Cross Site Scripting attacks.</description>
 		<argument>
 			<name>string</name>
@@ -164,9 +252,9 @@
 	<!-- encodeForCSS -->
 	<function>
 		<name>encodeForCSS</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForCSS</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForCSS</class>
 		<member-name>encodeForCSS</member-name>
-		<keywords>ESAPI,CSS</keywords>
+		<keywords>CSS</keywords>
 		<description>Encodes the given string for safe output in CSS to reduce the risk of Cross Site Scripting attacks.</description>
 		<argument>
 			<name>string</name>
@@ -190,9 +278,9 @@
 	<!-- encodeForJavaScript -->
 	<function>
 		<name>encodeForSQL</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForSQL</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForSQL</class>
 		<member-name>encodeForSQL</member-name>
-		<keywords>ESAPI,SQL,query</keywords>
+		<keywords>SQL,query</keywords>
 		<description>Encodes the given string for safe output in a query to reduce the risk of SQL Injection attacks. _This method is not recommended_ - the use of query parameters are strongly encouraged as a stronger alternative.</description>
 		<argument>
 			<name>string</name>
@@ -227,9 +315,9 @@
 	<!-- encodeForJavaScript -->
 	<function>
 		<name>encodeForJavaScript</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForJavaScript</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForJavaScript</class>
 		<member-name>encodeForJavascript</member-name>
-		<keywords>ESAPI,javascript</keywords>
+		<keywords>javascript</keywords>
 		<description>Encodes the given string for safe output in JavaScript to reduce the risk of Cross Site Scripting attacks.</description>
 		<argument>
 			<name>string</name>
@@ -253,9 +341,9 @@
 	<!-- encodeForXML -->
 	<function>
 		<name>encodeForXML</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForXML</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForXML</class>
 		<member-name>encodeForXML</member-name>
-		<keywords>ESAPI,XML</keywords>
+		<keywords>XML</keywords>
 		<description>Encodes the given string for safe output in XML to reduce the risk of Cross Site Scripting attacks.</description>
 		<argument>
 			<name>string</name>
@@ -278,9 +366,9 @@
 	<!-- encodeForXMLAttribute -->
 	<function>
 		<name>encodeForXMLAttribute</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForXMLAttribute</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForXMLAttribute</class>
 		<member-name>encodeForXMLAttribute</member-name>
-		<keywords>ESAPI,XML</keywords>
+		<keywords>XML</keywords>
 		<description>Encodes the given string for safe output in XMLAttribute to reduce the risk of Cross Site Scripting attacks.</description>
 		<argument>
 			<name>string</name>
@@ -304,9 +392,9 @@
 	<!-- encodeForURL -->
 	<function>
 		<name>encodeForURL</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForURL</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForURL</class>
 		<member-name>encodeForURL</member-name>
-		<keywords>ESAPI,URL</keywords>
+		<keywords>URL</keywords>
 		<description>Encodes the given string for safe output in a URL.</description>
 		<argument>
 			<name>string</name>
@@ -330,9 +418,9 @@
 	<!-- encodeForLDAP -->
 	<function>
 		<name>encodeForLDAP</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForLDAP</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForLDAP</class>
 		<member-name>encodeForLDAP</member-name>
-		<keywords>ESAPI,ldap</keywords>
+		<keywords>ldap</keywords>
 		<description>Encodes the given string for safe output in LDAP queries.</description>
 		<argument>
 			<name>string</name>
@@ -356,9 +444,9 @@
 	<!-- encodeForDN -->
 	<function>
 		<name>encodeForDN</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForDN</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForDN</class>
 		<member-name>encodeForDN</member-name>
-		<keywords>ESAPI,DN</keywords>
+		<keywords>DN</keywords>
 		<description>Encodes the given string for safe output in LDAP Distinguished Names.</description>
 		<argument>
 			<name>string</name>
@@ -382,9 +470,9 @@
 	<!-- encodeForXPath -->
 	<function>
 		<name>encodeForXPath</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.EncodeForXPath</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForXPath</class>
 		<member-name>encodeForXPath</member-name>
-		<keywords>ESAPI,XML</keywords>
+		<keywords>XML</keywords>
 		<description>Encodes the given string for safe use in an XPath Query.</description>
 		<argument>
 			<name>string</name>
@@ -408,11 +496,10 @@
 	<!-- decodeFromURL -->
 	<function>
 		<name>decodeFromURL</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.DecodeFromURL</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.DecodeFromURL</class>
 		<member-name>decodeFromURL</member-name>
-		<keywords>ESAPI,URL</keywords>
-		<description>Decodes a string that has been encoded in the URL using the encodeForURL.
-		this function is deprecated, use function ESAPIDecode('url',...) instead.</description>
+		<keywords>URL</keywords>
+		<description>Decodes a string that has been encoded in the URL using the encodeForURL.</description>
 		<argument>
 			<name>string</name>
 			<type>string</type>
@@ -427,7 +514,7 @@
 	<!-- Canonicalize -->
 	<function>
 		<name>Canonicalize</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.Canonicalize</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.Canonicalize</class>
 		<description>Canonicalization is simply the operation of reducing a possibly encoded string down to its simplest form. 
 		This is important, because attackers frequently use encoding to change their input in a way that will bypass validation filters, 
 		but still be interpreted properly by the target of the attack. 
@@ -471,9 +558,9 @@
 	<!-- GetSafeHTML
 	<function>
 		<name>GetSafeHTML</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.GetSafeHTML</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GetSafeHTML</class>
 		<member-name>getSafeHTML</member-name>
-		<keywords>ESAPI,HTML</keywords>
+		<keywords>HTML</keywords>
 		<description>Sanitizes the given input string based on the the rules specified in an antisamy policy file. 
 		This can be used to prevent unwanted user supplied HTML being used in an application. the antisamy policy file can be passed as argument to this function or can be defined in the application scope with the argument "this.security.antisamypolicy". if no file is defined the default file is used that is located in the web context in the folder security.
 		</description>
@@ -505,9 +592,9 @@
 	<!-- sanitizeHTML -->
 	<function>
 		<name>sanitizeHTML</name>
-		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.SanitizeHTML</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.SanitizeHTML</class>
 		<member-name>sanitizeHTML</member-name>
-		<keywords>ESAPI,HTML</keywords>
+		<keywords>HTML</keywords>
 		<description>Sanitizes unsafe HTML input and removes elements and attributes like JavaScript, onclick, etc.
 See also https://github.com/OWASP/java-html-sanitizer
 		</description>
