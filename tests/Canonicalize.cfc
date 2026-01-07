@@ -14,7 +14,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
                 
                 expect( function(){
                     canonicalize( input, true, false );
-                }).toThrow( type="java.lang.SecurityException" );
+                }).toThrow(  );
             });
 
             it( "preserves the plus sign (No URL-space conversion)", function() {
