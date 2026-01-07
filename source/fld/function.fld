@@ -38,7 +38,7 @@
 	<!-- ESAPIDecode -->
 	<function>
 		<name>ESAPIDecode</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardDecode</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.ESAPIDecode</class>
 		<keywords>decode,security,url,unencode</keywords>
 		<status>deprecated</status>
 		<description>Deprecated legacy function. Use GuardDecode instead.</description>
@@ -124,7 +124,7 @@
 	<!-- ESAPIEncode -->
 	<function>
 		<name>ESAPIEncode</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardEncode</class>
+		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.ESAPIEncode</class>
 		<keywords>CSS,DN,HTML,JavaScript,ldap,URL,SQL,VBScript,XML</keywords>
 		<status>deprecated</status>
     	<description>Deprecated legacy function. Use context-specific functions (e.g., encodeForHTML) instead.</description>
