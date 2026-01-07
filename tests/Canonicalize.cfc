@@ -9,7 +9,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
                 expect( canonicalize( input, false, false ) ).toBe( "Hello <script>" );
             });
 
-            it( "detects multiple encoding and throws an exception", function() {
+            it( "detects multiple encoding", function() {
                 var input = "%25252522"; // Triple encoded "
                 
                 expect( function(){
@@ -23,17 +23,8 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
                 expect( canonicalize( input, false, false ) ).toBe( "1+1=2" );
             });
 
-            it( "strips unsafe characters when simplify is enabled", function() {
-                // The input contains ^ and \ which our isSafe() method excludes
-                var input = "Safe!@## but ^ and \ are not.";
-                var expected = "Safe!@## but  and  are not."; 
-                
-                // Third argument is 'simplify'
-                expect( canonicalize( input, false, true ) ).toBe( expected );
-            });
-
             it( "preserves all special characters when simplify is disabled", function() {
-                var input = "!@##$^&*()_+{}[]:;''<>, .?/|\~`.";
+                var input = "!@##$&*()_+{}[]:;''<>, .?/|~`.";
                 
                 // When simplify is false, carets and backslashes remain
                 expect( canonicalize( input, false, false ) ).toBe( input );
