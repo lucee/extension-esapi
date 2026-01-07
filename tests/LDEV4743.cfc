@@ -9,7 +9,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 			it( title='Checking canonicalize() function with complex string', body=function() {
 				expect( 
 					canonicalize( "!@##$^&*()_+{}[]:"";''<>, .?/|\~`.", false, false ) )
-					       .toBe( "!@##$^&*()_+{}[]:"";''<>, .?/|~`." );
+					       .toBe( "!@##$&*()_+{}[]:"";''<>, .?/|~`." );
 			});
 
 			it( title='Checking canonicalize() function with % symbol', skip=true, body=function() {

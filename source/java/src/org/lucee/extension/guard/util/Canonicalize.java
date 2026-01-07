@@ -13,6 +13,53 @@ public class Canonicalize {
 	private static final int MAX_ITERATIONS = 5;
 
 	/**
+	 * Removes "unsafe" characters that are commonly used in injection attacks but
+	 * are not part of the standard alphanumeric set. * @param input The string to
+	 * clean
+	 * 
+	 * @return A string containing only "safe" characters
+	 */
+	public static String simplify(String input) {
+		if (input == null || input.isEmpty()) {
+			return input;
+		}
+
+		StringBuilder sb = new StringBuilder(input.length());
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
+
+			// Define "Safe" characters: Alphanumeric, space, and very basic punctuation
+			// This effectively "strips" ^, \, and others not in this list.
+			if (isSafe(c)) {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
+
+	private static boolean isSafe(char c) {
+		// Allow A-Z, a-z, 0-9
+		if (Character.isLetterOrDigit(c)) {
+			return true;
+		}
+		// Allow common "inert" punctuation
+		switch (c) {
+		case ' ':
+		case '-':
+		case '_':
+		case '.':
+		case '@':
+		case ':':
+		case ',':
+		case '!':
+		case '?':
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	/**
 	 * Simplified canonicalization that handles URL and HTML encoding
 	 * 
 	 * @param input           The input to canonicalize
@@ -70,7 +117,7 @@ public class Canonicalize {
 		if (throwOnMultiple && multipleEncodingDetected) {
 			throw new SecurityException("Multiple encoding layers detected in input: " + input);
 		}
-		return util.replace(working, placeholder, "+", false, true);
+		return simplify(util.replace(working, placeholder, "+", false, true));
 	}
 
 	private static String decodeHtmlEntities(String input) {
