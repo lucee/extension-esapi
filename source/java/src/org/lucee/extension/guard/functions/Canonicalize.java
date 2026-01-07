@@ -18,9 +18,6 @@
  **/
 package org.lucee.extension.guard.functions;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
@@ -28,11 +25,13 @@ public class Canonicalize extends FunctionSupport {
 
 	private static final long serialVersionUID = -4248746351014698481L;
 
-	public static String call(PageContext pc, String input, boolean restrictMultiple, boolean restrictMixed) throws PageException {
+	public static String call(PageContext pc, String input, boolean restrictMultiple, boolean restrictMixed)
+			throws PageException {
 		return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, false);
 	}
 
-	public static String call(PageContext pc, String input, boolean restrictMultiple, boolean restrictMixed, boolean throwonError) throws PageException {
+	public static String call(PageContext pc, String input, boolean restrictMultiple, boolean restrictMixed,
+			boolean throwonError) throws PageException {
 
 		String str = input;
 		String decodeUrl = " ";
@@ -44,21 +43,18 @@ public class Canonicalize extends FunctionSupport {
 			fromIndex++;
 		}
 
-		try {
-			decodeUrl = URLDecoder.decode(input, "UTF-8");
-		}
-		catch (UnsupportedEncodingException e) {
-			throw cast.toPageException(e);
-		}
+		decodeUrl = org.lucee.extension.guard.util.Canonicalize.decode(input);
 
-		if (decodeUrl == input) return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
+		if (decodeUrl == input)
+			return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
 
 		else {
 			if (throwonError == false && (restrictMultiple == true || restrictMixed == true)) {
-				if (count > 0) return " ";
-				else return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
-			}
-			else {
+				if (count > 0)
+					return " ";
+				else
+					return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
+			} else {
 				return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);
 			}
 		}
@@ -66,10 +62,15 @@ public class Canonicalize extends FunctionSupport {
 
 	@Override
 	public Object invoke(PageContext pc, Object[] args) throws PageException {
-		if (args.length == 4) return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), cast.toBooleanValue(args[2]), cast.toBooleanValue(args[3]));
-		if (args.length == 3) return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), cast.toBooleanValue(args[2]), false);
-		if (args.length == 2) return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), false, false);
-		if (args.length == 1) return call(pc, cast.toString(args[0]), false, false, false);
+		if (args.length == 4)
+			return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), cast.toBooleanValue(args[2]),
+					cast.toBooleanValue(args[3]));
+		if (args.length == 3)
+			return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), cast.toBooleanValue(args[2]), false);
+		if (args.length == 2)
+			return call(pc, cast.toString(args[0]), cast.toBooleanValue(args[1]), false, false);
+		if (args.length == 1)
+			return call(pc, cast.toString(args[0]), false, false, false);
 		throw exp.createFunctionException(pc, "Canonicalize", 3, 4, args.length);
 	}
 }

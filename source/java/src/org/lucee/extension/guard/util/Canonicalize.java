@@ -3,6 +3,10 @@ package org.lucee.extension.guard.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import lucee.loader.engine.CFMLEngine;
+import lucee.loader.engine.CFMLEngineFactory;
+import lucee.runtime.exp.PageException;
+
 public class Canonicalize {
 
 	private static final int MAX_ITERATIONS = 5;
@@ -31,14 +35,14 @@ public class Canonicalize {
 
 			// Decode URL encoding
 			try {
-				String urlDecoded = URLDecoder.decode(working, "UTF-8");
+				String urlDecoded = decode(working);
 				if (!urlDecoded.equals(working)) {
 					if (iterations > 1) {
 						multipleEncodingDetected = true;
 					}
 					working = urlDecoded;
 				}
-			} catch (IllegalArgumentException e) {
+			} catch (PageException pe) {
 				// Invalid URL encoding, continue with HTML
 			}
 
@@ -133,6 +137,24 @@ public class Canonicalize {
 		}
 
 		return result.toString();
+	}
+
+	public static String decode(String str) throws PageException {
+		CFMLEngine eng = CFMLEngineFactory.getInstance();
+		try {
+			Class<?> clazz = eng.getClassUtil().loadClass("lucee.commons.net.URLDecoder");
+
+			// decode(String str, boolean force)
+			return eng.getCastUtil().toString(eng.getClassUtil().callMethod(clazz,
+					eng.getCreationUtil().createKey("decode"), new Object[] { str, false }));
+		} catch (Exception e) {
+			try {
+				return URLDecoder.decode(str, "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				throw eng.getCastUtil().toPageException(e);
+			}
+		}
+
 	}
 
 	/**

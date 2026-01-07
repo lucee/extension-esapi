@@ -18,9 +18,6 @@
  **/
 package org.lucee.extension.guard.functions;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
@@ -45,24 +42,18 @@ public class GuardDecode extends FunctionSupport {
 		if (eng.getStringUtil().isEmpty(item))
 			return item;
 
-		try {
-			switch (decFrom) {
-			case DEC_URL:
-				return decodeURL(item);
-			case DEC_HTML:
-				return decodeHTML(item);
-			}
-			throw exp.createApplicationException("invalid target decoding definition");
-		} catch (Exception e) {
-			throw cast.toPageException(e);
+		switch (decFrom) {
+		case DEC_URL:
+			return decodeURL(item);
+		case DEC_HTML:
+			return decodeHTML(item);
 		}
+		throw exp.createApplicationException("invalid target decoding definition");
+
 	}
 
-	/**
-	 * Decode URL-encoded string using standard Java URLDecoder
-	 */
-	private static String decodeURL(String input) throws UnsupportedEncodingException {
-		return URLDecoder.decode(input, "UTF-8");
+	private static String decodeURL(String input) throws PageException {
+		return org.lucee.extension.guard.util.Canonicalize.decode(input);
 	}
 
 	/**
