@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.lucee</groupId>
     <artifactId>esapi-extension</artifactId>
-    <version>3.0.0.11-BETA</version>
+    <version>4.0.0.0-ALPHA</version>
     <packaging>pom</packaging>
     <name>Guard Extension</name>
 
@@ -14,7 +14,12 @@
         <maven.compiler.target>11</maven.compiler.target>
         <id>37C61C0A-5D7E-4256-8572639BE0CF5838</id>
         <bundlename>esapi.extension</bundlename>
-        <luceeCoreVersion>5.3.0.36</luceeCoreVersion>
+        <mvnGroupId>org.lucee</mvnGroupId>
+        <mvnGroupPath>org/lucee</mvnGroupPath>
+        <mvnArtifactId>esapi</mvnArtifactId>
+        <filename>esapi-extension</filename>
+        <luceeCoreVersion>7.0.0.0</luceeCoreVersion>
+        <camelname>ESAPI</camelname>
         <releaseType>server</releaseType>
         <label>Guard extension</label>
         <release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.url>
@@ -128,6 +133,16 @@
                                     <property name="description" value="${project.description}"/>
                                     <property name="srcversion" value="${maven.compiler.source}"/>
                                     <property name="trgversion" value="${maven.compiler.target}"/>
+                                    <property name="camelname" value="${camelname}"/>
+                                    <property name="maven.goal" value="${goal}"/>
+                                    <property name="mvnGroupId" value="${mvnGroupId}"/>
+                                    <property name="mvnGroupPath" value="${mvnGroupPath}"/>
+                                    <property name="mvnArtifactId" value="${mvnArtifactId}"/>
+                                    <property name="mvnVersion" value="${project.version}"/>
+
+                                    <property name="maven.username" value="${env.MAVEN_USERNAME}"/>
+                                    <property name="maven.password" value="${env.MAVEN_PASSWORD}"/>
+                                    <property name="gpg.passphrase" value="${env.GPG_PASSPHRASE}"/>
                                 
 </ant>
                                 <condition property="isSnapshot" value="true" else="false">
