@@ -18,12 +18,9 @@
  **/
 package org.lucee.extension.guard.functions;
 
-import java.io.UnsupportedEncodingException;
-
 import org.lucee.extension.guard.util.Canonicalize;
 import org.owasp.encoder.Encode;
 
-import lucee.loader.engine.CFMLEngineFactory;
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
@@ -213,12 +210,7 @@ public class GuardEncode extends FunctionSupport {
 			boolean throwOnError) throws PageException {
 		if (eng.getStringUtil().isEmpty(input))
 			return input;
-		try {
-			return Canonicalize.canonicalize(input, throwOnError);
-		} catch (UnsupportedEncodingException e) {
-			throw CFMLEngineFactory.getInstance().getCastUtil().toPageException(e);
-		}
-
+		return Canonicalize.canonicalize(input, throwOnError);
 	}
 
 	@Override
