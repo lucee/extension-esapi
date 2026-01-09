@@ -72,7 +72,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: esapi-lex-${{ matrix.lucee.version }}
+          name: guard-lex-${{ matrix.lucee.version }}
           path: target/*.lex
 
       - name: Debug Matrix Values
@@ -97,7 +97,7 @@ jobs:
           luceeVersionQuery: ${{ matrix.lucee.query }}
           extensionDir: ${{ github.workspace }}/target
         env:
-          testLabels: esapi
+          testLabels: guard
           testAdditional: ${{ github.workspace }}/tests
           LUCEE_ADMIN_PASSWORD: admin
 
