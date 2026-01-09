@@ -13,7 +13,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi" {
                 var input = "%25252522"; // Triple encoded "
                 
                 expect( function(){
-                    canonicalize( input, true, false );
+                    canonicalize( input, true, false,true );
                 }).toThrow(  );
             });
 
