@@ -1,4 +1,4 @@
-component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard"{
+component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi" {
 	function run( testResults , testBox ) {
 		describe( "test case for guardDecode", function() {
 			it(title = "Checking guardDecode with decodeFrom='html'", body = function( currentSpec ) {

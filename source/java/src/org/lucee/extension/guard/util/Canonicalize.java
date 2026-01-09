@@ -87,8 +87,10 @@ public class Canonicalize {
 	 * @param throwOnMultiple Throw exception if multiple encoding detected
 	 * @return Canonicalized string
 	 * @throws UnsupportedEncodingException
+	 * @throws RuntimeException
+	 * @throws PageException
 	 */
-	public static String canonicalize(String input, boolean throwOnMultiple) throws UnsupportedEncodingException {
+	public static String canonicalize(String input, boolean throwOnMultiple) throws PageException {
 		if (input == null || input.isEmpty()) {
 			return input;
 		}
@@ -136,7 +138,8 @@ public class Canonicalize {
 
 		// Check if multiple encoding was detected
 		if (throwOnMultiple && multipleEncodingDetected) {
-			throw new SecurityException("Multiple encoding layers detected in input: " + input);
+			throw CFMLEngineFactory.getInstance().getExceptionUtil()
+					.createSecurityException("Multiple encoding layers detected in input: " + input);
 		}
 		return simplify(util.replace(working, placeholder, "+", false, true));
 	}
