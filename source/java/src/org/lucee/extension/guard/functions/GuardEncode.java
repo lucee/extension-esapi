@@ -18,6 +18,7 @@
  **/
 package org.lucee.extension.guard.functions;
 
+import org.lucee.extension.guard.CustomEncoder;
 import org.lucee.extension.guard.util.Canonicalize;
 import org.owasp.encoder.Encode;
 
@@ -75,23 +76,16 @@ public class GuardEncode extends FunctionSupport {
 				return Encode.forXml(item);
 			case ENC_XML_ATTR:
 				return Encode.forXmlAttribute(item);
-
-			// These are not supported by OWASP Java Encoder
 			case ENC_DN:
-				throw exp.createApplicationException(
-						"DN encoding is not supported by the guard extension, install the ESAPI extension for this.");
+				return CustomEncoder.encodeForDN(item);
 			case ENC_LDAP:
-				throw exp.createApplicationException(
-						"LDAP encoding is not supported by the guard extension, install the ESAPI extension for this.");
+				return CustomEncoder.encodeForSearchFilter(item);
 			case ENC_VB_SCRIPT:
-				throw exp.createApplicationException(
-						"VBScript encoding is not supported by the guard extension, install the ESAPI extension for this.");
+				return CustomEncoder.encodeForVBScript(item);
 			case ENC_XPATH:
-				throw exp.createApplicationException(
-						"XPath encoding is not supported by the guard extension, install the ESAPI extension for this.");
+				return CustomEncoder.encodeForXPath(item);
 			case ENC_SQL:
-				throw exp.createApplicationException(
-						"SQL encoding should not be used. Use parameterized queries/prepared statements instead.");
+				return CustomEncoder.encodeForSQL(item, sqlDialect);
 			}
 			throw exp.createApplicationException("invalid target encoding definition");
 		} catch (Exception e) {
@@ -224,4 +218,5 @@ public class GuardEncode extends FunctionSupport {
 					cast.toString(args[3]));
 		throw exp.createFunctionException(pc, "guardEncode", 2, 4, args.length);
 	}
+
 }
