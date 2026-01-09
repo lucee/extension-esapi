@@ -7,7 +7,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 
             it( "encodes for HTML", function() {
                 var raw = '<b> "Test" & ''Check'' </b>';
-                var expected = '&lt;b&gt; &quot;Test&quot; &amp; &#39;Check&#39; &lt;/b&gt;';
+                var expected = '&lt;b&gt; &quot;Test&quot; &amp; &##39;Check&##39; &lt;/b&gt;';
                 expect( guardEncode(raw, "html") ).toBe( expected );
             });
 
@@ -48,7 +48,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
             it( "encodes for LDAP DN (Distinguished Name)", function() {
                 var raw = "Doe, John ##123";
                 // Should escape the leading # and the comma
-                expect( guardEncode(raw, "dn") ).toBe( "\#Doe\, John \#123" );
+                expect( guardEncode(raw, "dn") ).toBe( "\##Doe\, John \##123" );
             });
 
             it( "encodes for LDAP Search Filter", function() {
@@ -59,7 +59,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 
             it( "encodes for XPath", function() {
                 var raw = " ' or 1=1 ";
-                expect( guardEncode(raw, "xpath") ).toBe( " &#39; or 1=1 &#39; " );
+                expect( guardEncode(raw, "xpath") ).toBe( " &##39; or 1=1 &##39; " );
             });
 
             it( "encodes for VBScript", function() {
