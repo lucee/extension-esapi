@@ -6,7 +6,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
             // --- OWASP Java Encoder Targets ---
 
             it( "encodes for HTML", function() {
-                var raw = '<b> "Test" & \'Check\' </b>';
+                var raw = '<b> "Test" & ''Check'' </b>';
                 var expected = '&lt;b&gt; &quot;Test&quot; &amp; &#39;Check&#39; &lt;/b&gt;';
                 expect( guardEncode(raw, "html") ).toBe( expected );
             });
@@ -46,7 +46,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
             // --- CustomEncoder Targets ---
 
             it( "encodes for LDAP DN (Distinguished Name)", function() {
-                var raw = "Doe, John #123";
+                var raw = "Doe, John ##123";
                 // Should escape the leading # and the comma
                 expect( guardEncode(raw, "dn") ).toBe( "\#Doe\, John \#123" );
             });
