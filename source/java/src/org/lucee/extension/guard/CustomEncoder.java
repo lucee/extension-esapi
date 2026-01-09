@@ -68,6 +68,12 @@ public class CustomEncoder {
 			case '\"':
 				sb.append("&#34;");
 				break;
+			case '<':
+				sb.append("&lt;");
+				break; // Add this
+			case '>':
+				sb.append("&gt;");
+				break; // Add this
 			default:
 				if (c < 32 || c > 126) {
 					sb.append('\\').append(Integer.toHexString(c | 0x100).substring(1));
