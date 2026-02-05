@@ -7,7 +7,7 @@ import org.jsoup.safety.Safelist;
 import lucee.runtime.PageContext;
 import lucee.runtime.exp.PageException;
 
-public final class SanitizeHTML extends FunctionSupport {
+public class SanitizeHTML extends FunctionSupport {
 
 	public static final Safelist POLICY_ALL_BUILTIN = createAllBuiltin();
 
