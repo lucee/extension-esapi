@@ -9,9 +9,10 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 			it( title='Checking canonicalize() function with complex string', body=function() {
 				expect( 
 					canonicalize( "!@##$^&*()_+{}[]:"";''<>, .?/|\~`.", false, false ) )
-					       .toBe( "!@##$&*()_+{}[]:"";''<>, .?/|~`." );
+					       .toBe( "!@##$^&*()_+{}[]:"";''<>, .?/|\~`." );
 			});
 
+			
 			it( title='Checking canonicalize() function with % symbol', skip=true, body=function() {
 				var str = '(80 - 100%).pdf'; // Only failed with the '%' symbol
 				expect( canonicalize( str, false, false ) ).toBe( str );
