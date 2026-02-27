@@ -13,79 +13,9 @@ public class Canonicalize {
 	private static final int MAX_ITERATIONS = 5;
 
 	/**
-	 * Removes "unsafe" characters that are commonly used in injection attacks but
-	 * are not part of the standard alphanumeric set. * @param input The string to
-	 * clean
-	 * 
-	 * @return A string containing only "safe" characters
-	 */
-	public static String simplify(String input) {
-		if (input == null || input.isEmpty()) {
-			return input;
-		}
-
-		StringBuilder sb = new StringBuilder(input.length());
-		for (int i = 0; i < input.length(); i++) {
-			char c = input.charAt(i);
-
-			// Define "Safe" characters: Alphanumeric, space, and very basic punctuation
-			// This effectively "strips" ^, \, and others not in this list.
-			if (isSafe(c)) {
-				sb.append(c);
-			}
-		}
-		return sb.toString();
-	}
-
-	private static boolean isSafe(char c) {
-		// Allow A-Z, a-z, 0-9
-		if (Character.isLetterOrDigit(c)) {
-			return true;
-		}
-
-		// Allow common "inert" punctuation
-		switch (c) {
-		case ' ':
-		case '#':
-		case '-':
-		case '_':
-		case '.':
-		case '@':
-		case ':':
-		case ',':
-		case '!':
-		case '?':
-		case '$':
-		case '&':
-		case '*':
-		case '(':
-		case ')':
-		case '+':
-		case '{':
-		case '}':
-		case '[':
-		case ']':
-		case '<':
-		case '>':
-		case '"':
-		case ';':
-		case '~':
-		case '`':
-		case '|':
-		case '/':
-		case '=':
-		case '\'':
-
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	/**
 	 * Simplified canonicalization that handles URL and HTML encoding
 	 * 
-	 * @param input           The input to canonicalize
+	 * @param input The input to canonicalize
 	 * @param throwOnMultiple Throw exception if multiple encoding detected
 	 * @return Canonicalized string
 	 * @throws UnsupportedEncodingException
@@ -117,7 +47,8 @@ public class Canonicalize {
 					}
 					working = urlDecoded;
 				}
-			} catch (PageException pe) {
+			}
+			catch (PageException pe) {
 				// Invalid URL encoding, continue with HTML
 			}
 
@@ -132,18 +63,17 @@ public class Canonicalize {
 
 			// Safety check - prevent infinite loops
 			if (iterations > MAX_ITERATIONS) {
-				throw new IllegalArgumentException(
-						"Too many encoding layers detected (>" + MAX_ITERATIONS + "). Possible attack.");
+				throw new IllegalArgumentException("Too many encoding layers detected (>" + MAX_ITERATIONS + "). Possible attack.");
 			}
 
-		} while (!working.equals(previous));
+		}
+		while (!working.equals(previous));
 
 		// Check if multiple encoding was detected
 		if (throwOnMultiple && multipleEncodingDetected) {
-			throw CFMLEngineFactory.getInstance().getExceptionUtil()
-					.createSecurityException("Multiple encoding layers detected in input: " + input);
+			throw CFMLEngineFactory.getInstance().getExceptionUtil().createSecurityException("Multiple encoding layers detected in input: " + input);
 		}
-		return simplify(util.replace(working, placeholder, "+", false, true));
+		return util.replace(working, placeholder, "+", false, true);
 	}
 
 	private static String decodeHtmlEntities(String input) {
@@ -190,7 +120,8 @@ public class Canonicalize {
 						if (numStr.charAt(0) == 'x' || numStr.charAt(0) == 'X') {
 							// Hexadecimal
 							codepoint = Integer.parseInt(numStr.substring(1), 16);
-						} else {
+						}
+						else {
 							// Decimal
 							codepoint = Integer.parseInt(numStr);
 						}
@@ -201,7 +132,8 @@ public class Canonicalize {
 							i = endIdx + 1;
 							continue;
 						}
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e) {
 						// Not a valid number, treat as regular text
 					}
 				}
@@ -220,12 +152,13 @@ public class Canonicalize {
 			Class<?> clazz = eng.getClassUtil().loadClass("lucee.commons.net.URLDecoder");
 
 			// decode(String str, boolean force)
-			return eng.getCastUtil().toString(eng.getClassUtil().callMethod(clazz,
-					eng.getCreationUtil().createKey("decode"), new Object[] { str, false }));
-		} catch (Exception e) {
+			return eng.getCastUtil().toString(eng.getClassUtil().callMethod(clazz, eng.getCreationUtil().createKey("decode"), new Object[] { str, false }));
+		}
+		catch (Exception e) {
 			try {
 				return URLDecoder.decode(str, "UTF-8");
-			} catch (UnsupportedEncodingException e1) {
+			}
+			catch (UnsupportedEncodingException e1) {
 				throw eng.getCastUtil().toPageException(e);
 			}
 		}
@@ -249,7 +182,7 @@ public class Canonicalize {
 
 		System.out.println("Testing SimpleCanonicalize:\n");
 
-		for (String test : tests) {
+		for (String test: tests) {
 			String result = canonicalize(test, false);
 			System.out.println("Input:  " + test);
 			System.out.println("Output: " + result);
