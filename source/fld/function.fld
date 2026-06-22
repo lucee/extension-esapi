@@ -13,7 +13,7 @@
 	<!-- GuardDecode -->
 	<function>
 		<name>GuardDecode</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardDecode</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.GuardDecode</class>
 		<keywords>decode,security,url,unencode</keywords>
 		<description>Reverses encoding on a string to retrieve its original value. Useful for processing encoded input before validation.</description>
 		<argument>
@@ -38,7 +38,7 @@
 	<!-- ESAPIDecode -->
 	<function>
 		<name>ESAPIDecode</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.ESAPIDecode</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.ESAPIDecode</class>
 		<keywords>decode,security,url,unencode</keywords>
 		<status>deprecated</status>
 		<description>Deprecated legacy function. Use GuardDecode instead.</description>
@@ -65,7 +65,7 @@
 	<!-- GuardEncode -->
 	<function>
 		<name>GuardEncode</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GuardEncode</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.GuardEncode</class>
 		<keywords>encode,xss,security,html,javascript,css,url,sql,xml,ldap,xpath</keywords>
    		<description>Deprecated legacy function. Use context-specific functions (e.g., encodeForHTML) instead.
 
@@ -124,7 +124,7 @@
 	<!-- ESAPIEncode -->
 	<function>
 		<name>ESAPIEncode</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.esapi.functions.ESAPIEncode</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.esapi.functions.ESAPIEncode</class>
 		<keywords>CSS,DN,HTML,JavaScript,ldap,URL,SQL,VBScript,XML</keywords>
 		<status>deprecated</status>
     	<description>Deprecated legacy function. Use context-specific functions (e.g., encodeForHTML) instead.</description>
@@ -182,7 +182,7 @@
 	<!-- decodeForHTML -->
 	<function>
 		<name>decodeForHTML</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.DecodeForHTML</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.DecodeForHTML</class>
 		<member-name>decodeForHTML</member-name>
 		<keywords>encode,HTML</keywords>
 		<description>Decodes the given encoded string.</description>
@@ -200,7 +200,7 @@
 	<!-- encodeForHTML -->
 	<function>
 		<name>encodeForHTML</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForHTML</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForHTML</class>
 		<member-name>encodeForHTML</member-name>
 		<keywords>encode,HTML</keywords>
 		<description>Encodes the given string for safe output in HTML to reduce the risk of Cross Site Scripting attacks.</description>
@@ -226,7 +226,7 @@
 	<!-- encodeForHTMLAttribute -->
 	<function>
 		<name>encodeForHTMLAttribute</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForHTMLAttribute</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForHTMLAttribute</class>
 		<member-name>encodeForHTMLAttribute</member-name>
 		<keywords>HTML</keywords>
 		<description>Encodes the given string for safe output in HTML to reduce the risk of Cross Site Scripting attacks.</description>
@@ -252,7 +252,7 @@
 	<!-- encodeForCSS -->
 	<function>
 		<name>encodeForCSS</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForCSS</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForCSS</class>
 		<member-name>encodeForCSS</member-name>
 		<keywords>CSS</keywords>
 		<description>Encodes the given string for safe output in CSS to reduce the risk of Cross Site Scripting attacks.</description>
@@ -278,7 +278,7 @@
 	<!-- encodeForJavaScript -->
 	<function>
 		<name>encodeForSQL</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForSQL</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForSQL</class>
 		<member-name>encodeForSQL</member-name>
 		<keywords>SQL,query</keywords>
 		<description>Encodes the given string for safe output in a query to reduce the risk of SQL Injection attacks. _This method is not recommended_ - the use of query parameters are strongly encouraged as a stronger alternative.</description>
@@ -315,7 +315,7 @@
 	<!-- encodeForJavaScript -->
 	<function>
 		<name>encodeForJavaScript</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForJavaScript</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForJavaScript</class>
 		<member-name>encodeForJavascript</member-name>
 		<keywords>javascript</keywords>
 		<description>Encodes the given string for safe output in JavaScript to reduce the risk of Cross Site Scripting attacks.</description>
@@ -341,7 +341,7 @@
 	<!-- encodeForXML -->
 	<function>
 		<name>encodeForXML</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForXML</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForXML</class>
 		<member-name>encodeForXML</member-name>
 		<keywords>XML</keywords>
 		<description>Encodes the given string for safe output in XML to reduce the risk of Cross Site Scripting attacks.</description>
@@ -366,7 +366,7 @@
 	<!-- encodeForXMLAttribute -->
 	<function>
 		<name>encodeForXMLAttribute</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForXMLAttribute</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForXMLAttribute</class>
 		<member-name>encodeForXMLAttribute</member-name>
 		<keywords>XML</keywords>
 		<description>Encodes the given string for safe output in XMLAttribute to reduce the risk of Cross Site Scripting attacks.</description>
@@ -392,7 +392,7 @@
 	<!-- encodeForURL -->
 	<function>
 		<name>encodeForURL</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForURL</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForURL</class>
 		<member-name>encodeForURL</member-name>
 		<keywords>URL</keywords>
 		<description>Encodes the given string for safe output in a URL.</description>
@@ -418,7 +418,7 @@
 	<!-- encodeForLDAP -->
 	<function>
 		<name>encodeForLDAP</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForLDAP</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForLDAP</class>
 		<member-name>encodeForLDAP</member-name>
 		<keywords>ldap</keywords>
 		<description>Encodes the given string for safe output in LDAP queries.</description>
@@ -444,7 +444,7 @@
 	<!-- encodeForDN -->
 	<function>
 		<name>encodeForDN</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForDN</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForDN</class>
 		<member-name>encodeForDN</member-name>
 		<keywords>DN</keywords>
 		<description>Encodes the given string for safe output in LDAP Distinguished Names.</description>
@@ -470,7 +470,7 @@
 	<!-- encodeForXPath -->
 	<function>
 		<name>encodeForXPath</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.EncodeForXPath</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.EncodeForXPath</class>
 		<member-name>encodeForXPath</member-name>
 		<keywords>XML</keywords>
 		<description>Encodes the given string for safe use in an XPath Query.</description>
@@ -496,7 +496,7 @@
 	<!-- decodeFromURL -->
 	<function>
 		<name>decodeFromURL</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.DecodeFromURL</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.DecodeFromURL</class>
 		<member-name>decodeFromURL</member-name>
 		<keywords>URL</keywords>
 		<description>Decodes a string that has been encoded in the URL using the encodeForURL.</description>
@@ -514,7 +514,7 @@
 	<!-- Canonicalize -->
 	<function>
 		<name>Canonicalize</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.Canonicalize</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.Canonicalize</class>
 		<description>Canonicalization is simply the operation of reducing a possibly encoded string down to its simplest form. 
 		This is important, because attackers frequently use encoding to change their input in a way that will bypass validation filters, 
 		but still be interpreted properly by the target of the attack. 
@@ -558,7 +558,7 @@
 	<!-- GetSafeHTML
 	<function>
 		<name>GetSafeHTML</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.GetSafeHTML</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.GetSafeHTML</class>
 		<member-name>getSafeHTML</member-name>
 		<keywords>HTML</keywords>
 		<description>Sanitizes the given input string based on the the rules specified in an antisamy policy file. 
@@ -592,7 +592,7 @@
 	<!-- sanitizeHTML -->
 	<function>
 		<name>sanitizeHTML</name>
-		<class bundle-name="{bundle-name}" bundle-version="{bundle-version}">org.lucee.extension.guard.functions.SanitizeHTML</class>
+		<class maven="{mvnGroupId}:{mvnArtifactId}:{mvnVersion}">org.lucee.extension.guard.functions.SanitizeHTML</class>
 		<member-name>sanitizeHTML</member-name>
 		<keywords>HTML</keywords>
 		<description>Sanitizes unsafe HTML input and removes elements and attributes like JavaScript, onclick, etc.

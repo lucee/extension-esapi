@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.lucee</groupId>
     <artifactId>esapi-extension</artifactId>
-    <version>3.0.0.15</version>
+    <version>3.1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Guard Extension</name>
 
@@ -17,9 +17,14 @@
         <image>https://raw.githubusercontent.com/lucee/extension-esapi/master/source/images/logo.png</image>
         <buildDate>${maven.build.timestamp}</buildDate>
         <bundlename>esapi.extension</bundlename>
-        <luceeCoreVersion>5.3.0.36</luceeCoreVersion>
+        <mvnGroupId>org.lucee</mvnGroupId>
+        <mvnGroupPath>org/lucee</mvnGroupPath>
+        <mvnArtifactId>esapi</mvnArtifactId>
+        <filename>esapi-extension</filename>
+        <luceeCoreVersion>7.0.2.86</luceeCoreVersion>
         <releaseType>server</releaseType>
         <label>Guard extension</label>
+        <camelname>Esapi</camelname>
         <release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.url>
         <snapshot.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.url>
     </properties>
@@ -83,6 +88,7 @@
                                 <configuration>
                                     <files>
                                         <file>${project.build.directory}/${project.artifactId}-${project.version}.lex</file>
+                                        <file>${project.build.directory}/${project.artifactId}-${project.version}.lite.lex</file>
                                     </files>
                                 </configuration>
                             </execution>
@@ -146,19 +152,25 @@
                                 <ant antfile="build.xml" target="clean">
                                     <property name="bundleversion" value="${project.version}"/>
                                     <property name="bundlename" value="${bundlename}"/>
-                                    <property name="class" value="${class}"/>
+                                    <property name="filename" value="${project.artifactId}"/>
                                     <property name="groupId" value="${project.groupId}"/>
                                     <property name="artifactId" value="${project.artifactId}"/>
-                                    <property name="filename" value="${project.artifactId}"/>
                                     <property name="id" value="${id}"/>
                                     <property name="luceeCoreVersion" value="${luceeCoreVersion}"/>
                                     <property name="releaseType" value="${releaseType}"/>
                                     <property name="label" value="${label}"/>
                                     <property name="description" value="${project.description}"/>
-                                    <property name="srcversion" value="${maven.compiler.source}"/>
-                                    <property name="trgversion" value="${maven.compiler.target}"/>
-                                
-</ant>
+                                    <property name="camelname" value="${camelname}"/>
+                                    <property name="maven.goal" value="${goal}"/>
+                                    <property name="mvnGroupId" value="${mvnGroupId}"/>
+                                    <property name="mvnGroupPath" value="${mvnGroupPath}"/>
+                                    <property name="mvnArtifactId" value="${mvnArtifactId}"/>
+                                    <property name="mvnVersion" value="${project.version}"/>
+
+                                    <property name="maven.username" value="${env.MAVEN_USERNAME}"/>
+                                    <property name="maven.password" value="${env.MAVEN_PASSWORD}"/>
+                                    <property name="gpg.passphrase" value="${env.GPG_PASSPHRASE}"/>
+                                </ant>
                                 <condition property="isSnapshot" value="true" else="false">
                                     <matches string="${project.version}" pattern=".*-SNAPSHOT"/>
                                 </condition>
@@ -171,6 +183,11 @@
                                 <echo message="Deploying to URL: ${deploy.url}" />
                             </target>
                             <exportAntProperties>true</exportAntProperties>
+                              <propertySets>
+                                <propertySet>
+                                  <propertyRef prefix="env."/>
+                                </propertySet>
+                              </propertySets>
                         </configuration>
                     </execution>
                 </executions>
@@ -193,6 +210,11 @@
                                 <artifact>
                                     <file>${project.build.directory}/${project.artifactId}-${project.version}.lex</file>
                                     <type>lex</type>
+                                </artifact>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.artifactId}-${project.version}.lite.lex</file>
+                                    <type>lex</type>
+                                    <classifier>lite</classifier>
                                 </artifact>
                             </artifacts>
                         </configuration>
@@ -239,16 +261,17 @@
                 <version>3.0.0-M1</version>
                 <executions>
                     <execution>
-                        <id>default-deploy</id>
+                        <id>deploy-lite</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <file>${project.build.directory}/${project.artifactId}-${project.version}.lex</file>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}.lite.lex</file>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${project.artifactId}</artifactId>
                             <version>${project.version}</version>
+                            <classifier>lite</classifier>
                             <repositoryId>ossrh</repositoryId>
                             <url>${deploy.url}</url>
                             <packaging>lex</packaging>
