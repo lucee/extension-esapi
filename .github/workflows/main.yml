@@ -149,7 +149,7 @@ jobs:
         run: |
           if [[ "${{ needs.setup.outputs.version }}" == *-SNAPSHOT ]]; then
             echo "------- Maven Deploy snapshot on ${{ github.event_name }} -------";
-            mvn -B -e -f pom.xml clean deploy -Dgoal=deploy --settings maven-settings.xml
+            mvn -B -e -f pom.xml clean deploy -Dgoal=deploy -DperformRelease=true --settings maven-settings.xml
           elif [[ "${{ needs.setup.outputs.version }}" == *-ALPHA ]]; then
             echo "------- Maven Install alpha on ${{ github.event_name }} -------";
             mvn -B -e -f pom.xml clean install -Dgoal=install --settings maven-settings.xml
