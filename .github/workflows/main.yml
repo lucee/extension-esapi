@@ -10,6 +10,10 @@ on:
         description: 'Deploy to Maven Central'
         type: boolean
         default: false
+      luceeVersions:
+        description: 'JSON array of Lucee versions to test'
+        required: false
+        default: '[ "7.0/snapshot/light", "7.1/snapshot/light", "8.0/snapshot/light" ]'
 
 jobs:
   build:
@@ -54,6 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        lucee: ${{ fromJSON(inputs.luceeVersions || '["7.0/snapshot/light", "7.1/snapshot/light", "8.0/snapshot/light"]') }}
     steps:
       - uses: actions/checkout@v6
 
@@ -81,7 +89,7 @@ jobs:
         with:
           webroot: ${{ github.workspace }}/lucee/test
           execute: /bootstrap-tests.cfm
-          luceeVersion: 8.0/snapshot/light
+          luceeVersion: ${{ matrix.lucee }}
           extensionDir: ${{ github.workspace }}/target
         env:
           testLabels: guard
