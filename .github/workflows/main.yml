@@ -85,7 +85,8 @@ jobs:
         id: extract-branch
         run: |
           VERSION="${{ matrix.lucee.version }}"
-          BRANCH=$(echo "$VERSION" | cut -d. -f1-2)
+          # Remove "light-" prefix and extract major.minor version
+          BRANCH=$(echo "$VERSION" | sed 's/^light-//' | cut -d. -f1-2)
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
       - name: Checkout Lucee
