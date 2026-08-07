@@ -81,20 +81,11 @@ jobs:
           name: guard-lex
           path: target
 
-      - name: Extract Lucee branch from version
-        id: extract-branch
-        run: |
-          VERSION="${{ matrix.lucee.version }}"
-          # Remove "light-" prefix and extract major.minor version
-          BRANCH=$(echo "$VERSION" | sed 's/^light-//' | cut -d. -f1-2)
-          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
-
       - name: Checkout Lucee
         uses: actions/checkout@v6
         with:
           repository: lucee/lucee
           path: lucee
-          ref: ${{ steps.extract-branch.outputs.branch }}
 
       - name: Run Lucee Test Suite
         uses: lucee/script-runner@main
