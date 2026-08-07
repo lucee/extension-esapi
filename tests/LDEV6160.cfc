@@ -1,4 +1,4 @@
-component extends="org.lucee.cfml.test.LuceeTestCase" labels="esapi,encoding" {
+component extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 
 	function run( testResults, testBox ) {
 		describe( "LDEV-6160", function() {

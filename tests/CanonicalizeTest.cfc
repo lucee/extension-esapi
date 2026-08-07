@@ -11,7 +11,7 @@
  *   - Tabs (\t), carriage returns (\r), newlines (\n), backslash (\),
  *     caret (^), and non-ASCII Unicode characters should be preserved.
  */
-component displayName="CanonicalizeWhitespaceTest" extends="org.lucee.cfml.test.LuceeTestCase" {
+component displayName="CanonicalizeWhitespaceTest" extends="org.lucee.cfml.test.LuceeTestCase" labels="guard" {
 
 	function run() {
 
