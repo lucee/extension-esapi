@@ -5,11 +5,6 @@ on:
     branches: [master]
   pull_request:
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Deploy to Maven Central'
-        type: boolean
-        default: false
 
 jobs:
   build:
@@ -104,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build, test]
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy
+    if: github.event_name != 'pull_request' && !endsWith(needs.build.outputs.version, '-ALPHA')
     steps:
       - uses: actions/checkout@v6
 
@@ -135,10 +130,7 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           if [[ "$VERSION" == *-SNAPSHOT ]]; then
-            echo "------- Maven Deploy snapshot -------";
-            mvn -B -e -f pom.xml clean deploy -Dgoal=deploy -DperformRelease=true --settings maven-settings.xml
-          elif [[ "$VERSION" == *-ALPHA ]]; then
-            echo "------- Maven Install alpha (no publish) -------";
+            echo "------- Maven Install snapshot (no publish) -------";
             mvn -B -e -f pom.xml clean install -Dgoal=install --settings maven-settings.xml
           else
             echo "------- Maven Deploy release -------";
