@@ -43,7 +43,7 @@ public class Canonicalize extends FunctionSupport {
 			fromIndex++;
 		}
 
-		decodeUrl = org.lucee.extension.guard.util.Canonicalize.decode(input);
+		decodeUrl = org.lucee.extension.guard.util.Canonicalize.decodePercent(input);
 
 		if (decodeUrl == input)
 			return GuardEncode.canonicalize(input, restrictMultiple, restrictMixed, throwonError);

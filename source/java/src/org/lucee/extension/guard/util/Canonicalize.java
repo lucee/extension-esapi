@@ -1,7 +1,13 @@
 package org.lucee.extension.guard.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 
 import lucee.loader.engine.CFMLEngine;
 import lucee.loader.engine.CFMLEngineFactory;
@@ -38,18 +44,13 @@ public class Canonicalize {
 			previous = working;
 			iterations++;
 
-			// Decode URL encoding
-			try {
-				String urlDecoded = decode(working);
-				if (!urlDecoded.equals(working)) {
-					if (iterations > 1) {
-						multipleEncodingDetected = true;
-					}
-					working = urlDecoded;
+			// Decode URL encoding, a "%" that is not a valid escape is left as is (LDEV-4743)
+			String urlDecoded = decodePercent(working);
+			if (!urlDecoded.equals(working)) {
+				if (iterations > 1) {
+					multipleEncodingDetected = true;
 				}
-			}
-			catch (PageException pe) {
-				// Invalid URL encoding, continue with HTML
+				working = urlDecoded;
 			}
 
 			// Decode HTML entities
@@ -144,6 +145,62 @@ public class Canonicalize {
 		}
 
 		return result.toString();
+	}
+
+	/**
+	 * Lenient percent decoding as used by canonicalize(), following the ESAPI PercentCodec semantics: every
+	 * valid escape (% followed by two hex digits) is decoded, a "%" that does not start a valid escape is kept
+	 * as a literal character instead of failing (LDEV-4743). Consecutive escapes are decoded as UTF-8; when they
+	 * do not form valid UTF-8 they are kept as they are. A "+" is not touched (it is not an escape here).
+	 *
+	 * @param str the string to decode
+	 * @return the decoded string, the same instance when nothing was decoded
+	 */
+	public static String decodePercent(String str) {
+		if (str == null || str.indexOf('%') == -1) {
+			return str;
+		}
+		int len = str.length();
+		StringBuilder sb = new StringBuilder(len);
+		boolean changed = false;
+		int i = 0;
+		while (i < len) {
+			char c = str.charAt(i);
+			if (c != '%' || !isEscape(str, i)) {
+				sb.append(c);
+				i++;
+				continue;
+			}
+			// collect a run of consecutive valid escapes
+			int start = i;
+			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			while (i < len && str.charAt(i) == '%' && isEscape(str, i)) {
+				bytes.write((hex(str.charAt(i + 1)) << 4) | hex(str.charAt(i + 2)));
+				i += 3;
+			}
+			try {
+				CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder().onMalformedInput(CodingErrorAction.REPORT)
+						.onUnmappableCharacter(CodingErrorAction.REPORT);
+				sb.append(decoder.decode(ByteBuffer.wrap(bytes.toByteArray())));
+				changed = true;
+			}
+			catch (CharacterCodingException cce) {
+				// not valid UTF-8, keep the escapes as they are
+				sb.append(str, start, i);
+			}
+		}
+		return changed ? sb.toString() : str;
+	}
+
+	private static boolean isEscape(String str, int index) {
+		return index + 2 < str.length() && hex(str.charAt(index + 1)) != -1 && hex(str.charAt(index + 2)) != -1;
+	}
+
+	private static int hex(char c) {
+		if (c >= '0' && c <= '9') return c - '0';
+		if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+		if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+		return -1;
 	}
 
 	public static String decode(String str) throws PageException {
