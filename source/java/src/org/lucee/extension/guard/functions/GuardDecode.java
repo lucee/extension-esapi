@@ -52,8 +52,13 @@ public class GuardDecode extends FunctionSupport {
 
 	}
 
-	private static String decodeURL(String input) throws PageException {
-		return org.lucee.extension.guard.util.Canonicalize.decode(input);
+	/**
+	 * URL (form) decoding: "+" becomes a space, valid %XX escapes are decoded and a "%" that does not start a
+	 * valid escape is kept as is instead of throwing (LDEV-6699). "+" is replaced first, so an encoded plus
+	 * (%2B) still decodes to "+".
+	 */
+	private static String decodeURL(String input) {
+		return org.lucee.extension.guard.util.Canonicalize.decodePercent(input.replace('+', ' '));
 	}
 
 	/**

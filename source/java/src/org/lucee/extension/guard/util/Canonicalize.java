@@ -2,14 +2,12 @@ package org.lucee.extension.guard.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 
-import lucee.loader.engine.CFMLEngine;
 import lucee.loader.engine.CFMLEngineFactory;
 import lucee.runtime.exp.PageException;
 import lucee.runtime.util.Strings;
@@ -201,25 +199,6 @@ public class Canonicalize {
 		if (c >= 'a' && c <= 'f') return c - 'a' + 10;
 		if (c >= 'A' && c <= 'F') return c - 'A' + 10;
 		return -1;
-	}
-
-	public static String decode(String str) throws PageException {
-		CFMLEngine eng = CFMLEngineFactory.getInstance();
-		try {
-			Class<?> clazz = eng.getClassUtil().loadClass("lucee.commons.net.URLDecoder");
-
-			// decode(String str, boolean force)
-			return eng.getCastUtil().toString(eng.getClassUtil().callMethod(clazz, eng.getCreationUtil().createKey("decode"), new Object[] { str, false }));
-		}
-		catch (Exception e) {
-			try {
-				return URLDecoder.decode(str, "UTF-8");
-			}
-			catch (UnsupportedEncodingException e1) {
-				throw eng.getCastUtil().toPageException(e);
-			}
-		}
-
 	}
 
 	/**
